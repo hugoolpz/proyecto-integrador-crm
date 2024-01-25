@@ -102,7 +102,7 @@ fun ListadoFacturas(navController: NavController){
                                 tint = colorResource(id = R.color.rojo_tomate)
                             )
                         }
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { navController.navigate(Vistas.Factura.ruta)}) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.list_check_solid),

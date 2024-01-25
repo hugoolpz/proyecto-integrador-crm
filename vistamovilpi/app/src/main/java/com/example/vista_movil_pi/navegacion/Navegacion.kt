@@ -3,6 +3,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vista_movil_pi.vista.pantallas.Factura
 import com.example.vista_movil_pi.vista.pantallas.ListadoFacturas
 
 @Composable
@@ -11,6 +12,11 @@ fun Navegacion(){
     NavHost(navController = navController, startDestination = Vistas.ListadoFacturas.ruta) {
         composable("${Vistas.ListadoFacturas.ruta}") {
             ListadoFacturas(
+                navController = navController,
+            )
+        }
+        composable("${Vistas.Factura.ruta}"){
+            Factura(
                 navController = navController,
             )
         }
