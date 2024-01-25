@@ -182,7 +182,7 @@ fun Factura(navController: NavController) {
                     Divider(thickness = 3.dp, color = Color.Black)
                 }
                 //Factura
-                Column(   modifier = Modifier.padding(start = 30.dp , end = 30.dp, bottom = 20.dp)) {
+                Column(   modifier = Modifier.padding(start = 20.dp , end = 20.dp, bottom = 20.dp)) {
                     Box (
 
                         modifier = Modifier.padding(bottom = 10.dp)
