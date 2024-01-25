@@ -3,14 +3,20 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vista_movil_pi.vista.pantallas.FormFactura
 import com.example.vista_movil_pi.vista.pantallas.ListadoFacturas
 
 @Composable
 fun Navegacion(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Vistas.ListadoFacturas.ruta) {
+    NavHost(navController = navController, startDestination = Vistas.FormFactura.ruta) {
         composable("${Vistas.ListadoFacturas.ruta}") {
             ListadoFacturas(
+                navController = navController,
+            )
+        }
+        composable("${Vistas.FormFactura.ruta}") {
+            FormFactura(
                 navController = navController,
             )
         }

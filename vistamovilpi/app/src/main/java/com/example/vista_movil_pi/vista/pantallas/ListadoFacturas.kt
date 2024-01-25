@@ -129,7 +129,7 @@ fun ListadoFacturas(navController: NavController){
             .background(colorResource(id = R.color.blanco_claro))
             .padding(innerPadding))
         {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 20.dp, start = 15.dp, end = 15.dp, bottom = 20.dp), content = {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 5.dp, bottom = 5.dp, start = 15.dp, end = 15.dp), content = {
                 items(5){
                     TarjetaMinimizadaFacturas()
                 }
