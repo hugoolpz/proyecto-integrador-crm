@@ -67,7 +67,7 @@ fun Factura(navController: NavController) {
                 ),
                 title = {
                     Text(
-                        "Factura",
+                        "FACTURA",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.SemiBold,
