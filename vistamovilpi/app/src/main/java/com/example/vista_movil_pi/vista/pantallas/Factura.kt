@@ -249,7 +249,7 @@ fun Factura(navController: NavController) {
                                         horizontalAlignment = Alignment.CenterHorizontally) {
                                         Text(text = "Impuesto", fontSize = 17.sp,  fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                                         Spacer(modifier = Modifier.size(10.dp))
-                                        Text(text = "XXX€", fontSize = 15.sp, textAlign = TextAlign.Center)
+                                        Text(text = "XXX€", fontSize = 15.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(top =25.dp))
                                     }}
                                     item { Column(modifier = Modifier
                                         .padding(5.dp),
@@ -265,7 +265,7 @@ fun Factura(navController: NavController) {
                                         horizontalAlignment = Alignment.CenterHorizontally) {
                                         Text(text = "Total", fontSize = 17.sp,  fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                                         Spacer(modifier = Modifier.size(10.dp))
-                                        Text(text = "XXX€", fontSize = 15.sp, textAlign = TextAlign.Center)
+                                        Text(text = "XXX€", fontSize = 15.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(top =25.dp))
                                         Spacer(modifier = Modifier.size(15.dp))
                                         Text(text = "XXX€", fontSize = 15.sp,  fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                                     }}
