@@ -145,7 +145,7 @@ fun Login(navController: NavController) {
                     )
                 }
                 ElevatedButton(
-                    onClick = { navController.navigate(Vistas.Login.ruta) },
+                    onClick = { navController.navigate(Vistas.ListadoFacturas.ruta) },
                     colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
                     modifier = Modifier
                         .width(330.dp)

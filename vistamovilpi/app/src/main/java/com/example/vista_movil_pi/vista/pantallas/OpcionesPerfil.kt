@@ -39,11 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
 import com.example.vista_movil_pi.navegacion.Vistas
-import com.example.vista_movil_pi.vista.componentes.TarjetaMinimizadaFacturas
+import com.example.vista_movil_pi.vista.componentes.TarjetaInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListadoFacturas(navController: NavController){
+fun Opciones(navController: NavController) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -59,14 +59,14 @@ fun ListadoFacturas(navController: NavController){
                 ),
                 title = {
                     Text(
-                        "TUS FACTURAS:",
+                        "OPCIONES DE PERFIL:",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.SemiBold,
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate(Vistas.Login.ruta) }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             modifier = Modifier.size(30.dp),
                             painter = painterResource(id = R.drawable.left_long_solid),
@@ -76,12 +76,12 @@ fun ListadoFacturas(navController: NavController){
                     }
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate(Vistas.Opciones.ruta) }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             modifier = Modifier.size(30.dp),
                             painter = painterResource(id = R.drawable.circle_user_solid),
                             contentDescription = "",
-                            tint = colorResource(id = R.color.blanco_claro)
+                            tint = colorResource(id = R.color.rojo_tomate)
                         )
                     }
                 },
@@ -89,20 +89,19 @@ fun ListadoFacturas(navController: NavController){
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = colorResource(id = R.color.azul_oscuro),
-                contentColor = colorResource(id = R.color.blanco_claro  ),
+            BottomAppBar(containerColor = colorResource(id = R.color.azul_oscuro),
+                contentColor = colorResource(id = R.color.blanco_claro),
                 actions = {
                     Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-                        IconButton(onClick = { /* do something */ }, enabled = false) {
+                        IconButton(onClick = { navController.navigate("ListadoFacturas") }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.receipt_solid),
                                 contentDescription = "",
-                                tint = colorResource(id = R.color.rojo_tomate)
+                                tint = colorResource(id = R.color.blanco_claro)
                             )
                         }
-                        IconButton(onClick = { navController.navigate(Vistas.ListadoProyectos.ruta)}) {
+                        IconButton(onClick = { navController.navigate("TusProyectos") }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.list_check_solid),
@@ -114,26 +113,35 @@ fun ListadoFacturas(navController: NavController){
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { navController.navigate(Vistas.FormFactura.ruta) },
+                        onClick = { /* do something */ },
                         containerColor = colorResource(id = R.color.blanco_claro),
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                     ) {
-                        Icon(modifier = Modifier.size(30.dp), painter = painterResource(id = R.drawable.circle_plus_solid), contentDescription = "", tint = colorResource(id = R.color.azul_oscuro))
+                        Icon(
+                            modifier = Modifier.size(30.dp),
+                            painter = painterResource(id = R.drawable.circle_plus_solid),
+                            contentDescription = "",
+                            tint = colorResource(id = R.color.azul_oscuro)
+                        )
                     }
-                }
-            )
+                })
         },
     ) { innerPadding ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.blanco_claro))
-            .padding(innerPadding))
-        {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 5.dp, bottom = 5.dp, start = 15.dp, end = 15.dp), content = {
-                items(5){
-                    TarjetaMinimizadaFacturas()
-                }
-            })
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(id = R.color.blanco_claro))
+                .padding(innerPadding)
+        ) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(
+                    top = 20.dp, start = 15.dp, end = 15.dp, bottom = 20.dp
+                ),
+                content = {
+                    items(1) {
+                        TarjetaInfo()
+                    }
+                })
         }
     }
 }

@@ -8,7 +8,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.vista_movil_pi.vista.pantallas.FormFactura
 import com.example.vista_movil_pi.vista.pantallas.Factura
 import com.example.vista_movil_pi.vista.pantallas.ListadoFacturas
+import com.example.vista_movil_pi.vista.pantallas.ListadoProyectos
 import com.example.vista_movil_pi.vista.pantallas.Login
+import com.example.vista_movil_pi.vista.pantallas.Opciones
 import com.example.vista_movil_pi.vista.pantallas.Registro
 
 
@@ -38,6 +40,16 @@ fun Navegacion() {
         }
         composable("${Vistas.Registro.ruta}") {
             Registro(
+                navController = navController,
+            )
+        }
+        composable("${Vistas.ListadoProyectos.ruta}") {
+            ListadoProyectos(
+                navController = navController,
+            )
+        }
+        composable("${Vistas.Opciones.ruta}") {
+            Opciones(
                 navController = navController,
             )
         }

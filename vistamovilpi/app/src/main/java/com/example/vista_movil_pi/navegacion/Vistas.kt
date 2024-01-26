@@ -6,5 +6,7 @@ sealed class Vistas(val ruta: String) {
     object Factura: Vistas("Factura")
     object Login: Vistas("Login")
     object Registro: Vistas("Registro")
+    object ListadoProyectos: Vistas("ListadoProyectos")
+    object Opciones: Vistas("Opciones")
 
 }
