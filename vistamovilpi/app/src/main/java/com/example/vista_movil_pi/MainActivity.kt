@@ -9,12 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key.Companion.Home
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.vista_movil_pi.navegacion.Navegacion
-import com.example.vista_movil_pi.navegacion.Vistas
 import com.example.vista_movil_pi.ui.theme.VistamovilpiTheme
-import com.example.vista_movil_pi.vista.pantallas.Login
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

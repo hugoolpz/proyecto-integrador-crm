@@ -76,7 +76,7 @@ fun ListadoFacturas(navController: NavController){
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = { navController.navigate("OpcionesPerfil") }) {
                         Icon(
                             modifier = Modifier.size(30.dp),
                             painter = painterResource(id = R.drawable.circle_user_solid),
@@ -102,7 +102,7 @@ fun ListadoFacturas(navController: NavController){
                                 tint = colorResource(id = R.color.rojo_tomate)
                             )
                         }
-                        IconButton(onClick = { navController.navigate(Vistas.Factura.ruta)}) {
+                        IconButton(onClick = { navController.navigate("TusProyectos") }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.list_check_solid),
@@ -129,7 +129,7 @@ fun ListadoFacturas(navController: NavController){
             .background(colorResource(id = R.color.blanco_claro))
             .padding(innerPadding))
         {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 5.dp, bottom = 5.dp, start = 15.dp, end = 15.dp), content = {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 20.dp, start = 15.dp, end = 15.dp, bottom = 20.dp), content = {
                 items(5){
                     TarjetaMinimizadaFacturas()
                 }
