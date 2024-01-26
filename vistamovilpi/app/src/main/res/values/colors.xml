@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blanco_hueso">#EAE7DC</color>
+    <color name="rojo_tomate">#E85A4F</color>
+    <color name="azul_verdoso">#88BDBC</color>
+    <color name="azul_oscuro">#29648A</color>
+    <color name="blanco_claro">#F2F2F2</color>
+</resources>
