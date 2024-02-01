@@ -1,0 +1,39 @@
+.tarjeta-factura {
+  width: 100%;
+  max-width: 350px;
+}
+
+.text-blanco-hueso {
+  color: #eae7dc !important;
+}
+.bg-blanco-hueso {
+  background: #eae7dc !important;
+}
+
+.text-rojo-tomate {
+  color: #e85a4f !important;
+}
+.bg-rojo-tomate {
+  background: #e85a4f !important;
+}
+
+.text-azul-menta {
+  color: #88bdbc !important;
+}
+.bg-azul-menta {
+  background: #88bdbc !important;
+}
+
+.text-azul-oscuro {
+  color: #29648a !important;
+}
+.bg-azul-oscuro {
+  background: #29648a !important;
+}
+
+.text-blanco-claro {
+  color: #f2f2f2 !important;
+}
+.bg-blanco-claro {
+  background: #f2f2f2 !important;
+}
