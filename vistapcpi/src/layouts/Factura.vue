@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <q-layout view="hHh lpR fFf">
-    <headers></headers>
+    <Headers></Headers>
     <q-page-container>
       <router-view />
     </q-page-container>
