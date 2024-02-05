@@ -1,11 +1,11 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <headers></headers>
+    <Header></Header>
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 <script setup>
-import Headers from "src/components/Headers.vue";
+import Header from "src/components/Header.vue";
 </script>
