@@ -5,10 +5,22 @@
       <q-btn flat @click="menuIzq = !menuIzq" round dense icon="fas fa-list" />
       <q-toolbar-title class="blanco-claro"> Nombre de la APP </q-toolbar-title>
       <q-space />
-      <q-input dark dense standout v-model="busqueda" class="q-ml-md" style="width: 350px">
+      <q-input
+        dark
+        dense
+        standout
+        v-model="busqueda"
+        class="q-ml-md"
+        style="width: 350px"
+      >
         <template v-slot:append>
           <q-icon v-if="busqueda === ''" name="fas fa-search" />
-          <q-icon v-else name="fas fa-xmark" class="cursor-pointer" @click="busqueda = ''" />
+          <q-icon
+            v-else
+            name="fas fa-xmark"
+            class="cursor-pointer"
+            @click="busqueda = ''"
+          />
         </template>
       </q-input>
       <q-space />
@@ -20,14 +32,20 @@
     </q-toolbar>
   </q-header>
   <q-drawer v-model="menuIzq" behavior="mobile" :width="250" :breakpoint="400">
-    <q-img class="" src="https://cdn.quasar.dev/img/material.png" style="height: 80px">
+    <q-img
+      class=""
+      src="https://cdn.quasar.dev/img/material.png"
+      style="height: 80px"
+    >
       <div class="bg-transparent">
         <div class="text-weight-bold">Nombre Apellidos</div>
         <div>@nombre_usuario</div>
       </div>
     </q-img>
 
-    <q-scroll-area style="height: calc(100% - 150px); border-right: 1px solid #ddd">
+    <q-scroll-area
+      style="height: calc(100% - 150px); border-right: 1px solid #ddd"
+    >
       <q-list padding>
         <q-item clickable v-ripple>
           <q-item-section avatar>
@@ -57,11 +75,13 @@
   </q-drawer>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const menuIzq = ref(false);
 const tab = ref("facturas");
 const busqueda = ref("");
-watch(tab, () => router.push({ name: 'funciones', params: { func: tab.value } }))
+watch(tab, () =>
+  router.push({ name: "funciones", params: { func: tab.value } })
+);
 </script>

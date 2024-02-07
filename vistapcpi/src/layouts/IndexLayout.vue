@@ -1,6 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <Header></Header>
+    <HeaderIndexComponent></HeaderIndexComponent>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -8,5 +9,5 @@
 </template>
 
 <script setup>
-import Header from "src/components/Header.vue";
+import HeaderIndexComponent from "src/components/HeaderIndexComponent.vue";
 </script>

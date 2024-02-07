@@ -1,9 +1,5 @@
 <template>
-  <q-page>
-    <div>SAFAFA</div>
-  </q-page>
+  <q-page></q-page>
 </template>
 
-<script setup>
-import { ref } from "vue";
-</script>
+<script setup></script>
