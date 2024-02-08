@@ -11,7 +11,7 @@
     transition-hide="slide-down"
     transition-show="slide-up"
   >
-    <q-card style="overflow-y: hidden;">
+    <q-card class="overflow-hidden-y" style="width: 800px; height: 650px;">
       <q-card-section>
         <FormularioLoginComponent @registro="closeDialogLogin()"></FormularioLoginComponent>
       </q-card-section>
@@ -27,7 +27,7 @@
     transition-hide="slide-down"
     transition-show="slide-up"
   >
-    <q-card style="overflow-y: hidden;">
+    <q-card class="overflow-hidden-y" style="width: 700px; max-width: 80vw;">
       <q-card-section>
         <FormularioRegistroComponent @login="closeDialogRegistro()"></FormularioRegistroComponent>
       </q-card-section>
@@ -58,10 +58,3 @@ function closeDialogRegistro() {
   showDialogRegistro.value = false;
 }
 </script>
-
-<style>
-.q-card {
-  width: 800px;
-  height: 650px;
-}
-</style>

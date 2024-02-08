@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +36,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -83,43 +86,48 @@ fun Login(navController: NavController) {
                     text = "Iniciar sesión",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    modifier = Modifier.offset(y = -50.dp)
                 )
 
                 LoginTextField(value = correo, onValueChange = { nuevoValor -> correo = nuevoValor }, label = "Correo", icon = null)
                 Spacer(modifier = Modifier.height(12.dp))
 
                 LoginTextField(value = contrasena, onValueChange = { nuevoValor -> contrasena = nuevoValor }, label = "Contraseña", icon = R.drawable.hide)
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(48.dp))
 
-                Spacer(modifier = Modifier.height(80.dp))
-                ElevatedButton(
-                    onClick = { navController.navigate("ListadoFacturas") },
-                    colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
-                    shape = RoundedCornerShape(4.dp),
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier
-                        .width(330.dp)
-                        .height(40.dp)
+                        .offset(y = 80.dp),
                 ) {
-                    Text(
-                        text = "Iniciar sesión",
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+                    ElevatedButton(
+                        onClick = { navController.navigate("ListadoFacturas") },
+                        colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier
+                            .width(330.dp)
+                            .height(40.dp)
+                    ) {
+                        Text(
+                            text = "Iniciar sesión",
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
 
-                Spacer(modifier = Modifier.height(20.dp))
-                Row {
-                    Text(
-                        text = "¿No tienes una cuenta? ",
-                        color = Color(150,150,150),
-                    )
-                    Text(
-                        text = "Regístrate",
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.clickable {
-                            navController.navigate("Registro")
-                        }
-                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row {
+                        Text(
+                            text = "¿No tienes una cuenta? ",
+                            color = Color(150,150,150),
+                        )
+                        Text(
+                            text = "Regístrate",
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.clickable {
+                                navController.navigate("Registro")
+                            }
+                        )
+                    }
                 }
             }
         }

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -34,6 +36,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,114 +50,124 @@ import com.example.vista_movil_pi.R
 fun Registro(navController: NavController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color(41, 101, 138)),
+            .background(Color.White)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
+        //verticalArrangement = Arrangement.Center
     ) {
-        var correo by remember { mutableStateOf("") }
+        var nombre by remember { mutableStateOf("") }
+        var apellidos by remember { mutableStateOf("") }
+        var nif by remember { mutableStateOf("") }
+        var telefono by remember { mutableStateOf("") }
         var contrasena by remember { mutableStateOf("") }
-
-        Text(
-            text = "Nombre de la APP",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = Color.White,
-            modifier = Modifier
-                .width(95.dp)
-                .offset(y = -75.dp)
-        )
-
-        LoginTriangulo()
+        var correo by remember { mutableStateOf("") }
+        var direccion by remember { mutableStateOf("") }
 
         Box(
-            modifier = Modifier
-                .background(Color.White)
-                .fillMaxWidth()
-                .fillMaxHeight(0.7f)
+            //contentAlignment = Alignment.TopCenter
         ) {
-            Column(
+            Image(
+                painter = painterResource(id = R.drawable.vector_registro),
+                contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.16f),
+                contentScale = ContentScale.FillBounds
+            )
+        }
+
+        Spacer(modifier = Modifier.height(3.dp))
+        Text(
+            text = "Regístrate",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+
+        RegistroTextField(
+            value = nombre,
+            onValueChange = { nuevoValor -> nombre = nuevoValor },
+            label = "Nombre"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = apellidos,
+            onValueChange = { nuevoValor -> apellidos = nuevoValor },
+            label = "Apellidos"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = correo,
+            onValueChange = { nuevoValor -> correo = nuevoValor },
+            label = "Correo electrónico"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = telefono,
+            onValueChange = { nuevoValor -> telefono = nuevoValor },
+            label = "Teléfono"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = direccion,
+            onValueChange = { nuevoValor -> direccion = nuevoValor },
+            label = "Dirección"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = nif,
+            onValueChange = { nuevoValor -> nif = nuevoValor },
+            label = "NIF"
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        RegistroTextField(
+            value = contrasena,
+            onValueChange = { nuevoValor -> contrasena = nuevoValor },
+            label = "Contraseña"
+        )
+
+        Column(
+            modifier = Modifier
+                .offset(y = 68.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            ElevatedButton(
+                onClick = {  },
+                colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
+                shape = RoundedCornerShape(4.dp),
+                modifier = Modifier
+                    .width(330.dp)
+                    .height(40.dp)
             ) {
                 Text(
-                    text = "Regístrate",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier.offset(y = -50.dp)
+                    text = "Registrar",
+                    fontWeight = FontWeight.Medium
                 )
+            }
 
-                LoginTextField(value = correo, onValueChange = { nuevoValor -> correo = nuevoValor }, label = "Correo", icon = null)
-                Spacer(modifier = Modifier.height(12.dp))
-
-                LoginTextField(value = contrasena, onValueChange = { nuevoValor -> contrasena = nuevoValor }, label = "Contraseña", icon = R.drawable.hide)
-                Spacer(modifier = Modifier.height(30.dp))
-
-                Spacer(modifier = Modifier.height(80.dp))
-                ElevatedButton(
-                    onClick = {  },
-                    colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
-                    shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier
-                        .width(330.dp)
-                        .height(40.dp)
-                ) {
-                    Text(
-                        text = "Registrar",
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-                Row {
-                    Text(
-                        text = "¿Ya tienes una cuenta? ",
-                        color = Color(150,150,150),
-                    )
-                    Text(
-                        text = "Inicia sesión",
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.clickable {
-                            navController.navigate("Login")
-                        }
-                    )
-                }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row {
+                Text(
+                    text = "¿Ya tienes una cuenta? ",
+                    color = Color(150,150,150),
+                )
+                Text(
+                    text = "Inicia sesión",
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.clickable {
+                        navController.navigate("Login")
+                    }
+                )
             }
         }
-    }
-}
 
-@Composable
-fun RegistroTriangulo() {
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
-    ) {
-        val triangleHeight = size.height
-        val triangleBase = size.width
-        val strokeWidth = 5.dp.toPx()
-
-        val path = Path().apply {
-            moveTo(0f, triangleHeight)
-            lineTo(triangleBase / 2, 0f)
-            lineTo(triangleBase, triangleHeight)
-            close()
-        }
-        drawLine(
-            color = Color.White,
-            start = Offset(0f, triangleHeight),
-            end = Offset(triangleBase / 2, 0f),
-            strokeWidth = strokeWidth
-        )
-        drawLine(
-            color = Color.White,
-            start = Offset(triangleBase / 2, 0f),
-            end = Offset(triangleBase, triangleHeight),
-            strokeWidth = strokeWidth
-        )
-        drawPath(path = path, color = Color.White, style = Fill)
     }
 }
 

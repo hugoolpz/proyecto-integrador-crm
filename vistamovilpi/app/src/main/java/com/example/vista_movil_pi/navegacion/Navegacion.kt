@@ -13,7 +13,6 @@ import com.example.vista_movil_pi.vista.pantallas.Login
 import com.example.vista_movil_pi.vista.pantallas.Opciones
 import com.example.vista_movil_pi.vista.pantallas.Registro
 
-
 @Composable
 fun Navegacion() {
     val navController = rememberNavController()
