@@ -1,7 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <HeaderIndexComponent></HeaderIndexComponent>
-
     <q-page-container>
       <router-view />
     </q-page-container>

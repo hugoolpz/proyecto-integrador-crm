@@ -5,16 +5,8 @@ const routes = [
     children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
   },
   {
-    path: "/funciones/:func",
-    name: "funciones",
+    path: "/funciones",
     component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        name: "funciones",
-        path: "",
-        component: () => import("pages/Funciones.vue"),
-      },
-    ],
   },
 
   // Always leave this as last one,
