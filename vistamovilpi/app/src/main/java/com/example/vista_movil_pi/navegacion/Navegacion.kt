@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vista_movil_pi.viewmodel.LoginVM
 
 import com.example.vista_movil_pi.vista.pantallas.FormFactura
 import com.example.vista_movil_pi.vista.pantallas.Factura
@@ -35,6 +36,7 @@ fun Navegacion() {
         composable("${Vistas.Login.ruta}") {
             Login(
                 navController = navController,
+                viewModel = LoginVM()
             )
         }
         composable("${Vistas.Registro.ruta}") {

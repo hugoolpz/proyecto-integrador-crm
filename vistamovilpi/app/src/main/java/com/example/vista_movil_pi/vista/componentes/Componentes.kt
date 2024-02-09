@@ -1,5 +1,8 @@
 package com.example.vista_movil_pi.vista.componentes
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
@@ -23,13 +27,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -381,5 +389,72 @@ fun BotonTonal(
                 modifier = Modifier.size(20.dp)
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    @DrawableRes icon: Int? = null
+) {
+    Column {
+        TextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            label = { Text(text = label, fontSize = 15.sp) },
+            modifier = Modifier.width(330.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White,
+                focusedLabelColor = colorResource(id = R.color.azul_oscuro),
+                unfocusedLabelColor = colorResource(id = R.color.azul_verdoso),
+                focusedIndicatorColor = colorResource(id = R.color.azul_oscuro),
+                unfocusedIndicatorColor = colorResource(id = R.color.azul_verdoso),
+            ),
+
+            trailingIcon = {
+                if (icon != null) {
+                    Image(
+                        painter = painterResource(id = icon),
+                        contentDescription = null,
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun LoginTriangulo() {
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+    ) {
+        val triangleHeight = size.height
+        val triangleBase = size.width
+        val strokeWidth = 5.dp.toPx()
+
+        val path = Path().apply {
+            moveTo(0f, triangleHeight)
+            lineTo(triangleBase / 2, 0f)
+            lineTo(triangleBase, triangleHeight)
+            close()
+        }
+        drawLine(
+            color = Color.White,
+            start = Offset(0f, triangleHeight),
+            end = Offset(triangleBase / 2, 0f),
+            strokeWidth = strokeWidth
+        )
+        drawLine(
+            color = Color.White,
+            start = Offset(triangleBase / 2, 0f),
+            end = Offset(triangleBase, triangleHeight),
+            strokeWidth = strokeWidth
+        )
+        drawPath(path = path, color = Color.White, style = Fill)
     }
 }
