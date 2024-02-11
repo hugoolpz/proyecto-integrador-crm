@@ -9,4 +9,5 @@ data class Usuario(
     val telefono: String,
     val direccion: String,
 ) {
+    val _id: String = ""
 }

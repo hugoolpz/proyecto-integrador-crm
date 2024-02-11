@@ -1,9 +1,12 @@
 package com.example.vista_movil_pi.navegacion
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
 import com.example.vista_movil_pi.viewmodel.LoginVM
 import com.example.vista_movil_pi.viewmodel.RegistroVM
 
@@ -19,10 +22,20 @@ import com.example.vista_movil_pi.vista.pantallas.Registro
 fun Navegacion() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Vistas.Login.ruta) {
-        composable("${Vistas.ListadoFacturas.ruta}") {
-            ListadoFacturas(
-                navController = navController,
-            )
+        composable(
+            route = "${Vistas.ListadoFacturas.ruta}?uid={uid}",
+            arguments = listOf(navArgument(name = "uid") {
+                type = NavType.StringType
+            })
+        ) {
+            it.arguments?.getString("uid")
+                ?.let { uid ->
+                    ListadoFacturas(
+                        viewModel = ListadoFacturasVM(),
+                        navController = navController,
+                        uid = uid
+                    )
+                }
         }
         composable("${Vistas.Factura.ruta}") {
             Factura(

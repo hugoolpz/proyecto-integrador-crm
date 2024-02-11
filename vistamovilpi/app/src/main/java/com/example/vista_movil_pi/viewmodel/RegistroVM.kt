@@ -11,6 +11,7 @@ import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Usuario
 import com.example.vista_movil_pi.navegacion.Vistas
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit
+import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -79,7 +80,7 @@ class RegistroVM: ViewModel() {
         val usuario = Usuario(nombre, apellidos, correo, contra, nif, telefono, direccion)
         viewModelScope.launch {
             try {
-                val result = InstanciaRetrofit.RetrofitInstance.api.postUsuario(usuario)
+                val result = api.postUsuario(usuario)
                 Log.d("Resultado del registro", result.toString())
                 if (result.isSuccessful) {
                     val response: RespuestaApi<Usuario> = result.body()!!

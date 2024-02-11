@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
 import com.example.vista_movil_pi.vista.componentes.TarjetaMinimizadaFacturas

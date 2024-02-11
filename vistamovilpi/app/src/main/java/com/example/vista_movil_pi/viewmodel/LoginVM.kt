@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Usuario
 import com.example.vista_movil_pi.navegacion.Vistas
+import com.example.vista_movil_pi.retrofit.InstanciaRetrofit
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -46,7 +47,8 @@ class LoginVM: ViewModel() {
                 if (result.isSuccessful) {
                     val response: RespuestaApi<Usuario> = result.body()!!
                     if (response.exito == true){
-                        navController.navigate(Vistas.ListadoFacturas.ruta)
+                        navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + (response.datos?._id
+                            ?: null))
                     }
                 }
             } catch (ex: Exception) {

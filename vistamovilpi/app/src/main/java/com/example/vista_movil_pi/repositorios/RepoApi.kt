@@ -1,6 +1,7 @@
 package com.example.vista_movil_pi.repositorios
 
 import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
+import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.modelo.Usuario
 import retrofit2.Response
 import retrofit2.http.Body
@@ -16,4 +17,7 @@ interface RepoApi {
 
     @POST("api/usuarios")
     suspend fun postUsuario(@Body usuario: Usuario): Response<RespuestaApi<Usuario>>
+
+    @GET("api/facturas/tuyas/{id}")
+    suspend fun getFacturas(@Path("id") id: String): Response<RespuestaApi<List<Factura>>>
 }

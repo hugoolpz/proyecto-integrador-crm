@@ -52,15 +52,17 @@ import com.example.vista_movil_pi.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TarjetaMinimizadaFacturas(){
-
+fun TarjetaMinimizadaFacturas(
+    titulo: String,
+    total: String,
+    alClickar: () -> Unit
+){
     ElevatedCard(
-        onClick = {
-        },
+        onClick = alClickar,
         modifier = Modifier
             .height(IntrinsicSize.Min)
             .wrapContentHeight()
-            .padding(5.dp),
+            .padding(5.dp, bottom = 10.dp),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.blanco_claro),
         ),
@@ -88,12 +90,12 @@ fun TarjetaMinimizadaFacturas(){
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = "Título de la factura...",
+                    text = titulo,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
                 )
                 Text(
-                    text = "Total de la factura...",
+                    text = total,
                     color = colorResource(id = R.color.azul_verdoso),
                     fontSize = 16.sp
                 )
