@@ -27,6 +27,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,17 +38,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
+import com.example.vista_movil_pi.viewmodel.RegistroVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Registro(navController: NavController) {
+fun Registro(navController: NavController, viewModel: RegistroVM) {
+    val nombre: String by viewModel.nombre.observeAsState(initial = "")
+    val apellidos: String by viewModel.apellidos.observeAsState(initial = "")
+    val nif: String by viewModel.nif.observeAsState(initial = "")
+    val telefono: String by viewModel.telefono.observeAsState(initial = "")
+    val contrasena: String by viewModel.contrasena.observeAsState(initial = "")
+    val correo: String by viewModel.correo.observeAsState(initial = "")
+    val direccion: String by viewModel.direccion.observeAsState(initial = "")
+    val botonActivo: Boolean by viewModel.botonActivo.observeAsState(initial = false)
+    val cargando : Boolean by viewModel.cargando.observeAsState(initial = false)
+
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -55,14 +69,6 @@ fun Registro(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         //verticalArrangement = Arrangement.Center
     ) {
-        var nombre by remember { mutableStateOf("") }
-        var apellidos by remember { mutableStateOf("") }
-        var nif by remember { mutableStateOf("") }
-        var telefono by remember { mutableStateOf("") }
-        var contrasena by remember { mutableStateOf("") }
-        var correo by remember { mutableStateOf("") }
-        var direccion by remember { mutableStateOf("") }
-
         Box(
             //contentAlignment = Alignment.TopCenter
         ) {
@@ -76,7 +82,7 @@ fun Registro(navController: NavController) {
             )
         }
 
-        Spacer(modifier = Modifier.height(3.dp))
+        Spacer(modifier = Modifier.height(25.dp))
         Text(
             text = "Regístrate",
             fontWeight = FontWeight.Bold,
@@ -86,65 +92,67 @@ fun Registro(navController: NavController) {
 
         RegistroTextField(
             value = nombre,
-            onValueChange = { nuevoValor -> nombre = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(it, apellidos, nif, telefono, contrasena, correo, direccion) },
             label = "Nombre"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = apellidos,
-            onValueChange = { nuevoValor -> apellidos = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(nombre, it, nif, telefono, contrasena, correo, direccion) },
             label = "Apellidos"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = correo,
-            onValueChange = { nuevoValor -> correo = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(nombre, apellidos, nif, telefono, contrasena, it, direccion) },
             label = "Correo electrónico"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = telefono,
-            onValueChange = { nuevoValor -> telefono = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(nombre, apellidos, nif, it, contrasena, correo, direccion) },
             label = "Teléfono"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = direccion,
-            onValueChange = { nuevoValor -> direccion = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(nombre, apellidos, nif, telefono, contrasena, correo, it) },
             label = "Dirección"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = nif,
-            onValueChange = { nuevoValor -> nif = nuevoValor },
+            onValueChange = { viewModel.CambiarInputs(nombre, apellidos, it, telefono, contrasena, correo, direccion) },
             label = "NIF"
         )
         Spacer(modifier = Modifier.height(5.dp))
 
         RegistroTextField(
             value = contrasena,
-            onValueChange = { nuevoValor -> contrasena = nuevoValor },
-            label = "Contraseña"
+            onValueChange = { viewModel.CambiarInputs(nombre, apellidos, nif, telefono, it, correo, direccion) },
+            label = "Contraseña",
+            esContra = true
         )
 
         Column(
             modifier = Modifier
-                .offset(y = 68.dp),
+                .offset(y = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             ElevatedButton(
-                onClick = {  },
+                onClick = { viewModel.IntentarRegistrarse(nombre, apellidos, correo, contrasena, nif, telefono, direccion, navController) },
                 colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier
                     .width(330.dp)
-                    .height(40.dp)
+                    .height(40.dp),
+                enabled = botonActivo
             ) {
                 Text(
                     text = "Registrar",
@@ -177,7 +185,8 @@ fun RegistroTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    @DrawableRes icon: Int? = null
+    @DrawableRes icon: Int? = null,
+    esContra: Boolean = false
 ) {
     Column {
         TextField(
@@ -187,7 +196,10 @@ fun RegistroTextField(
             modifier = Modifier.width(330.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
-                unfocusedIndicatorColor = Color(150,150,150)
+                unfocusedIndicatorColor = colorResource(id = R.color.azul_oscuro),
+                focusedIndicatorColor = colorResource(id = R.color.azul_oscuro),
+                focusedLabelColor = colorResource(id = R.color.azul_oscuro),
+                unfocusedLabelColor = colorResource(id = R.color.azul_oscuro)
             ),
             trailingIcon = {
                 if (icon != null) {
@@ -196,7 +208,8 @@ fun RegistroTextField(
                         contentDescription = null,
                     )
                 }
-            }
+            },
+            visualTransformation = if (esContra) PasswordVisualTransformation() else VisualTransformation.None,
         )
     }
 }
