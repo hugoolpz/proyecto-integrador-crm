@@ -110,7 +110,7 @@
                   <q-form @submit="emitirFactura()" @reset="onReset" class="q-gutter-lg">
                     <q-input v-model="concepto" type="text" label="Concepto" />
                     <q-input v-model="descripcion" type="text" label="Descripción" />
-                    <q-input readonly v-model="datosEmisor" type="text" label="Emisor (Id de momento)" />
+                    <q-input v-model="datosEmisor" type="hidden" label="Emisor (Id de momento)" />
                     <q-input v-model="fechaFactura" type="date" label="Fecha" />
                     <q-input v-model="baseImp" type="number" label="Base imponible" />
                     <q-input v-model="datosRemitente" type="text" label="Remitente (Id de momento)" />
