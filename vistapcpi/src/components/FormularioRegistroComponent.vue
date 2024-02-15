@@ -11,38 +11,38 @@
       <q-form @submit="registrarse" class="q-gutter-md">
         <div class="row">
           <div class="col">
-            <q-input v-model="nombre" rounded outlined color="indigo" label="Nombre" type="text" lazy-rules
+            <q-input color="azul-oscuro" v-model="nombre" rounded outlined label="Nombre" type="text" lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
           <div class="col q-ml-md">
-            <q-input v-model="apellidos" rounded outlined color="indigo" label="Apellidos" type="text" lazy-rules
+            <q-input color="azul-oscuro" v-model="apellidos" rounded outlined label="Apellidos" type="text" lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
           <div class="col q-ml-md">
-            <q-input v-model="correo" rounded outlined color="indigo" label="Correo electrónico" type="text" lazy-rules
-              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
+            <q-input color="azul-oscuro" v-model="correo" rounded outlined label="Correo electrónico" type="text"
+              lazy-rules :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
         </div>
 
         <div class="row q-mt-md">
           <div class="col">
-            <q-input v-model="telefono" rounded outlined color="indigo" label="Teléfono" type="tel" lazy-rules
+            <q-input color="azul-oscuro" v-model="telefono" rounded outlined label="Teléfono" type="tel" lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
           <div class="col q-ml-md">
-            <q-input v-model="direccion" rounded outlined color="indigo" label="Dirección" type="text" lazy-rules
+            <q-input color="azul-oscuro" v-model="direccion" rounded outlined label="Dirección" type="text" lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
           <div class="col q-ml-md">
-            <q-input v-model="nif" rounded outlined color="indigo" label="NIF" type="text" lazy-rules
+            <q-input color="azul-oscuro" v-model="nif" rounded outlined label="NIF" type="text" lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
         </div>
 
         <div class="row q-mt-md">
           <div class="col q-ml-md">
-            <q-input v-model="contrasena" rounded outlined color="indigo" label="Contraseña" type="password" lazy-rules
-              :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
+            <q-input color="azul-oscuro" v-model="contrasena" rounded outlined label="Contraseña" type="password"
+              lazy-rules :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']" />
           </div>
         </div>
 

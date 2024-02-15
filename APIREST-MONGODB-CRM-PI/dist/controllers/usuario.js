@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuarioByCorreoAndContra = exports.getUsuarios = void 0;
+exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuarioByCorreoAndContra = exports.getUsuario = exports.getUsuarios = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const factura_1 = require("../models/factura");
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -33,11 +33,31 @@ const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.getUsuarios = getUsuarios;
+const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    yield factura_1.UsuarioModel.findById(id)
+        .populate("clientes")
+        .exec()
+        .then((resultados) => {
+        return res.status(200).json({
+            exito: true,
+            datos: resultados,
+        });
+    })
+        .catch((error) => {
+        return res.status(500).json({
+            exito: false,
+            error,
+        });
+    });
+});
+exports.getUsuario = getUsuario;
 const getUsuarioByCorreoAndContra = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { correo, contra } = req.params;
     const usuario = yield factura_1.UsuarioModel.findOne({
         correo: correo,
     })
+        .populate("clientes")
         .exec()
         .then((resultado) => {
         if (bcrypt_1.default.compareSync(contra, resultado.contra.toString())) {

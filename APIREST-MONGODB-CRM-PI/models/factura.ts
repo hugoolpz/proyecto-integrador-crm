@@ -11,6 +11,10 @@ const SchemaUsuario: Schema = new Schema<IUsuario>(
     nif: { type: Schema.Types.String, required: true },
     telefono: { type: Schema.Types.String, required: true },
     direccion: { type: Schema.Types.String, required: true },
+    clientes: {
+      type: [Schema.Types.ObjectId],
+      ref: "usuarios",
+    },
   },
   { timestamps: false, versionKey: false }
 );

@@ -6,6 +6,7 @@ const router = (0, express_1.Router)();
 //Establecemos los endpoints de cada solicitud
 router.get("/", usuario_1.getUsuarios);
 router.get("/:correo/:contra", usuario_1.getUsuarioByCorreoAndContra);
+router.get("/:id", usuario_1.getUsuario);
 router.post("/", usuario_1.postUsuario);
 router.put("/:id", usuario_1.putUsuario);
 router.delete("/:id", usuario_1.deleteUsuario);

@@ -8,4 +8,5 @@ export default interface IUsuario extends Document {
   nif: Schema.Types.String;
   telefono: Schema.Types.String;
   direccion: Schema.Types.String;
+  clientes: [Schema.Types.ObjectId];
 }

@@ -9,15 +9,15 @@
 
     <div class="q-pa-md" style="max-width: 500px">
       <q-form @submit="iniciarSesion" class="q-gutter-md">
-        <q-input class="q-mt-xl" v-model="email" type="text" label="Correo electrónico" lazy-rules
+        <q-input color="azul-oscuro" class="q-mt-xl" v-model="email" type="text" label="Correo electrónico" lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']">
           <template v-slot:prepend>
             <q-icon name="email" />
           </template>
         </q-input>
 
-        <q-input v-model="contrasena" :type="isPwd ? 'password' : 'text'" label="Contraseña" lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']">
+        <q-input color="azul-oscuro" v-model="contrasena" :type="isPwd ? 'password' : 'text'" label="Contraseña"
+          lazy-rules :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']">
           <template v-slot:prepend>
             <q-icon name="lock" />
           </template>

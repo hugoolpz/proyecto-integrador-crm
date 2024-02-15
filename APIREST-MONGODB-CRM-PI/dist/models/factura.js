@@ -33,6 +33,10 @@ const SchemaUsuario = new mongoose_1.Schema({
     nif: { type: mongoose_1.Schema.Types.String, required: true },
     telefono: { type: mongoose_1.Schema.Types.String, required: true },
     direccion: { type: mongoose_1.Schema.Types.String, required: true },
+    clientes: {
+        type: [mongoose_1.Schema.Types.ObjectId],
+        ref: "usuarios",
+    },
 }, { timestamps: false, versionKey: false });
 exports.UsuarioModel = mongoose_1.default.model("usuarios", SchemaUsuario);
 const SchemaFactura = new mongoose_1.Schema({

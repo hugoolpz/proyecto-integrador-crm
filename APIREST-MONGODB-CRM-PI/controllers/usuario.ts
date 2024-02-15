@@ -20,12 +20,33 @@ const getUsuarios = async (req: Request, res: Response) => {
     });
 };
 
+const getUsuario = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  await UsuarioModel.findById(id)
+    .populate("clientes")
+    .exec()
+    .then((resultados) => {
+      return res.status(200).json({
+        exito: true,
+        datos: resultados,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        exito: false,
+        error,
+      });
+    });
+};
+
 const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
   const { correo, contra } = req.params;
 
   const usuario = await UsuarioModel.findOne({
     correo: correo,
   })
+    .populate("clientes")
     .exec()
     .then((resultado) => {
       if (bcrypt.compareSync(contra, resultado!.contra.toString())) {
@@ -137,6 +158,7 @@ const deleteUsuario = async (req: Request, res: Response) => {
 
 export {
   getUsuarios,
+  getUsuario,
   getUsuarioByCorreoAndContra,
   postUsuario,
   putUsuario,
