@@ -43,7 +43,7 @@ const getUsuario = async (req: Request, res: Response) => {
 const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
   const { correo, contra } = req.params;
 
-  const usuario = await UsuarioModel.findOne({
+  await UsuarioModel.findOne({
     correo: correo,
   })
     .populate("clientes")

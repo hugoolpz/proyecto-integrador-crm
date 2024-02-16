@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProyecto = exports.putProyecto = exports.postProyecto = exports.getProyecto = exports.getProyectos = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const proyecto_1 = __importDefault(require("../models/proyecto"));
+const proyecto_1 = require("../models/proyecto");
 const getProyectos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield proyecto_1.default
+    yield proyecto_1.ProyectoModel
         .find()
         .exec()
         .then((resultados) => {
@@ -35,7 +35,7 @@ const getProyectos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.getProyectos = getProyectos;
 const getProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield proyecto_1.default
+    yield proyecto_1.ProyectoModel
         .findById(id)
         .exec()
         .then((resultado) => {
@@ -54,7 +54,7 @@ const getProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getProyecto = getProyecto;
 const postProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
-    const nuevoProyecto = new proyecto_1.default({
+    const nuevoProyecto = new proyecto_1.ProyectoModel({
         _id: new mongoose_1.default.Types.ObjectId(),
         nombre,
         subtitulo,
@@ -81,7 +81,7 @@ exports.postProyecto = postProyecto;
 const putProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
-    yield proyecto_1.default
+    yield proyecto_1.ProyectoModel
         .findByIdAndUpdate({ _id: id }, {
         nombre,
         subtitulo,
@@ -105,7 +105,7 @@ const putProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.putProyecto = putProyecto;
 const deleteProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield proyecto_1.default
+    yield proyecto_1.ProyectoModel
         .findByIdAndDelete({ _id: id })
         .then((resultado) => {
         return res.status(200).json({

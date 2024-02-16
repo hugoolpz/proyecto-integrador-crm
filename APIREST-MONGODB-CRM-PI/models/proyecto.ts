@@ -10,6 +10,7 @@ const SchemaTarea: Schema = new Schema<ITarea>(
     tiempoReal: { type: Schema.Types.Number, required: true },
     estado: { type: Schema.Types.Boolean, required: true },
     esImp: { type: Schema.Types.Boolean, required: true },
+
   },
   { timestamps: false, versionKey: false }
 );
@@ -25,7 +26,7 @@ const SchemaProyecto: Schema = new Schema<IProyecto>(
   { timestamps: false, versionKey: false }
 );
 
-export default mongoose.model<IProyecto & Document>(
+export const ProyectoModel =  mongoose.model<IProyecto & Document>(
   "proyectos",
   SchemaProyecto
 );

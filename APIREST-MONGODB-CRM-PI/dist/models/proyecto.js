@@ -23,6 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProyectoModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const SchemaTarea = new mongoose_1.Schema({
     nombre: { type: mongoose_1.Schema.Types.String, required: true },
@@ -39,5 +40,5 @@ const SchemaProyecto = new mongoose_1.Schema({
     estado: { type: mongoose_1.Schema.Types.Boolean, required: true },
     tareas: [SchemaTarea],
 }, { timestamps: false, versionKey: false });
-exports.default = mongoose_1.default.model("proyectos", SchemaProyecto);
+exports.ProyectoModel = mongoose_1.default.model("proyectos", SchemaProyecto);
 //# sourceMappingURL=proyecto.js.map

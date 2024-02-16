@@ -54,7 +54,7 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getUsuario = getUsuario;
 const getUsuarioByCorreoAndContra = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { correo, contra } = req.params;
-    const usuario = yield factura_1.UsuarioModel.findOne({
+    yield factura_1.UsuarioModel.findOne({
         correo: correo,
     })
         .populate("clientes")

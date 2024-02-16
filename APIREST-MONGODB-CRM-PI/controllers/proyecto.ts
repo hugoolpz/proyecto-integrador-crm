@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import proyecto from "../models/proyecto";
+import {ProyectoModel} from "../models/proyecto";
 
 const getProyectos = async (req: Request, res: Response) => {
-  await proyecto
+  await ProyectoModel
     .find()
     .exec()
     .then((resultados) => {
@@ -23,7 +23,7 @@ const getProyectos = async (req: Request, res: Response) => {
 const getProyecto = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await proyecto
+  await ProyectoModel
     .findById(id)
     .exec()
     .then((resultado) => {
@@ -43,7 +43,7 @@ const getProyecto = async (req: Request, res: Response) => {
 const postProyecto = async (req: Request, res: Response) => {
   const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
 
-  const nuevoProyecto = new proyecto({
+  const nuevoProyecto = new ProyectoModel({
     _id: new mongoose.Types.ObjectId(),
     nombre,
     subtitulo,
@@ -73,7 +73,7 @@ const putProyecto = async (req: Request, res: Response) => {
 
   const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
 
-  await proyecto
+  await ProyectoModel
     .findByIdAndUpdate(
       { _id: id },
       {
@@ -101,7 +101,7 @@ const putProyecto = async (req: Request, res: Response) => {
 const deleteProyecto = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await proyecto
+  await ProyectoModel
     .findByIdAndDelete({ _id: id })
     .then((resultado) => {
       return res.status(200).json({
