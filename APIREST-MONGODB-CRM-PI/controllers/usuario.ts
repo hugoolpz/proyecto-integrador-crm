@@ -40,8 +40,10 @@ const getUsuario = async (req: Request, res: Response) => {
     });
 };
 
-const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
-  const { correo, contra } = req.params;
+const authUsuario = async (req: Request, res: Response) => {
+  const { correo, contra } = req.body;
+
+  console.log(req.body);
 
   await UsuarioModel.findOne({
     correo: correo,
@@ -50,11 +52,13 @@ const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
     .exec()
     .then((resultado) => {
       if (bcrypt.compareSync(contra, resultado!.contra.toString())) {
+        console.log("Contra perfe " + resultado);
         return res.json({
           exito: true,
           datos: resultado,
         });
       } else {
+        console.log("Contra no perfe: " + resultado);
         return res.status(500).json({
           exito: false,
           error: "Contraseña incorrecta",
@@ -62,6 +66,7 @@ const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
+      console.log("Error: " + error);
       return res.status(500).json({
         exito: false,
         error,
@@ -70,8 +75,16 @@ const getUsuarioByCorreoAndContra = async (req: Request, res: Response) => {
 };
 
 const postUsuario = async (req: Request, res: Response) => {
-  const { nombre, apellidos, correo, contra, nif, telefono, direccion } =
-    req.body;
+  const {
+    nombre,
+    apellidos,
+    correo,
+    contra,
+    nif,
+    telefono,
+    direccion,
+    clientes,
+  } = req.body;
 
   let hashContra = bcrypt.hashSync(contra, 10);
 
@@ -86,6 +99,7 @@ const postUsuario = async (req: Request, res: Response) => {
     nif,
     telefono,
     direccion,
+    clientes,
   });
 
   await nuevoUsuario
@@ -107,21 +121,19 @@ const postUsuario = async (req: Request, res: Response) => {
 const putUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const { nombre, apellidos, correo, contra, nif, telefono, direccion } =
+  const { nombre, apellidos, correo, nif, telefono, direccion, clientes } =
     req.body;
 
-  let hashContra = bcrypt.hashSync(contra, 10);
-
-  await UsuarioModel.findByIdAndUpdate(
+  await UsuarioModel.findOneAndUpdate(
     { _id: id },
     {
       nombre,
       apellidos,
       correo,
-      contra: hashContra,
       nif,
       telefono,
       direccion,
+      $push: { clientes: clientes },
     }
   )
     .then((resultado) => {
@@ -159,7 +171,7 @@ const deleteUsuario = async (req: Request, res: Response) => {
 export {
   getUsuarios,
   getUsuario,
-  getUsuarioByCorreoAndContra,
+  authUsuario,
   postUsuario,
   putUsuario,
   deleteUsuario,

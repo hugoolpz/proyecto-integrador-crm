@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
+import com.example.vista_movil_pi.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 
@@ -27,7 +27,7 @@ class ListadoFacturasVM: ViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.e("ViewModel", "Error en getDatosPrivados()", e)
+            Log.e("ViewModel", "Error en getFacturas()", e)
             // Maneja los errores aquí
         }
         _cargando.value = false

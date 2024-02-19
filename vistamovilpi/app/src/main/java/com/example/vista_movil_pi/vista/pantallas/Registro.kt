@@ -146,7 +146,7 @@ fun Registro(navController: NavController, viewModel: RegistroVM) {
             verticalArrangement = Arrangement.Center
         ) {
             ElevatedButton(
-                onClick = { viewModel.IntentarRegistrarse(nombre, apellidos, correo, contrasena, nif, telefono, direccion, navController) },
+                onClick = { viewModel.IntentarRegistrarse(nombre, apellidos, nif, telefono, contrasena, correo, direccion, navController) },
                 colors = ButtonDefaults.buttonColors(Color(137, 189, 187)),
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier

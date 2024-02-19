@@ -131,7 +131,7 @@
             <tab-proyectos v-model="crearProyecto"></tab-proyectos>
           </q-tab-panel>
           <q-tab-panel name="clientes">
-            <tab-clientes></tab-clientes>
+            <tab-clientes v-model="registrarCliente"></tab-clientes>
           </q-tab-panel>
         </q-tab-panels>
       </q-page>
@@ -154,6 +154,7 @@ const busqueda = ref("");
 const emitirFact = ref(false);
 const router = useRouter();
 const crearProyecto = ref(false);
+const registrarCliente = ref(false)
 
 const tuInfo = ref(JSON.parse(window.localStorage.getItem("usuario")));
 </script>

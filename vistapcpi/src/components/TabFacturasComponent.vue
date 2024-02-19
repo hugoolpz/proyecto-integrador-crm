@@ -3,23 +3,23 @@
     <div class="row q-pl-xl q-pb-xl q-pt-lg q-gutter-x-xl">
       <div class="col">
         <q-select
-          color="azul-menta"
-          outlined
-          popup-content-class="bg-white"
           v-model="filtroMultiple"
           :options="options"
-          stack-label
+          color="azul-menta"
           label="Filtrar por:"
+          outlined
+          popup-content-class="bg-white"
+          stack-label
           style="width: 315px"
         >
           <template v-slot:selected-item="scope">
             <q-chip
-              removable
-              @remove="scope.removeAtIndex(scope.index)"
               :tabindex="scope.tabindex"
-              color="white"
-              text-color="white"
               class="q-ml-none bg-azul-oscuro"
+              color="white"
+              removable
+              text-color="white"
+              @remove="scope.removeAtIndex(scope.index)"
             >
               {{ scope.opt.label }}
             </q-chip>
@@ -29,22 +29,22 @@
     </div>
     <div class="column">
       <div class="col">
-        <div class="row" v-if="filtroMultiple.label == 'Solo emitidas'">
+        <div v-if="filtroMultiple.label == 'Solo emitidas'" class="row">
           <div
-            class="col-4 q-px-xl q-pb-xl"
             v-for="factE in facturasEmitidas"
             :key="factE._id"
+            class="col-4 q-px-xl q-pb-xl"
           >
             <Factura
+              :base="factE.baseImp + '€'"
               :concepto="factE.concepto"
               :descripcion="factE.descripcion"
-              :filtro-multiple="filtroMultiple"
               :emisor="
                 factE.datosEmisor.nombre + ' ' + factE.datosEmisor.apellidos
               "
-              :n-fact="factE.numero"
               :fecha="factE.fecha"
-              :base="factE.baseImp + '€'"
+              :filtro-multiple="filtroMultiple"
+              :n-fact="factE.numero"
               :remitente="
                 factE.datosReceptor.nombre + ' ' + factE.datosReceptor.apellidos
               "
@@ -55,22 +55,22 @@
             </Factura>
           </div>
         </div>
-        <div class="row" v-else>
+        <div v-else class="row">
           <div
-            class="col-4 q-px-xl q-pb-xl"
             v-for="factR in facturasRecibidas"
             :key="factR._id"
+            class="col-4 q-px-xl q-pb-xl"
           >
             <Factura
+              :base="factR.baseImp + '€'"
               :concepto="factR.concepto"
               :descripcion="factR.descripcion"
-              :filtro-multiple="filtroMultiple"
               :emisor="
                 factR.datosEmisor.nombre + ' ' + factR.datosEmisor.apellidos
               "
-              :n-fact="factR.numero"
               :fecha="factR.fecha"
-              :base="factR.baseImp + '€'"
+              :filtro-multiple="filtroMultiple"
+              :n-fact="factR.numero"
               :remitente="
                 factR.datosReceptor.nombre + ' ' + factR.datosReceptor.apellidos
               "
@@ -85,49 +85,49 @@
     </div>
   </div>
   <q-dialog v-model="emitirFact" persistent>
-    <q-card style="width: 600px" class="q-pa-md">
+    <q-card class="q-pa-md" style="width: 600px">
       <q-card-section>
-        <q-form @submit="emitirFactura()" @reset="onReset" class="q-gutter-lg">
+        <q-form class="q-gutter-lg" @reset="onReset" @submit="emitirFactura()">
           <q-input
             v-model="concepto"
-            type="text"
-            label="Concepto"
             color="azul-menta"
+            label="Concepto"
+            type="text"
           />
           <q-input
             v-model="descripcion"
-            type="text"
-            label="Descripción"
             color="azul-menta"
+            label="Descripción"
+            type="text"
           />
           <q-input
             v-model="fechaFactura"
-            type="date"
-            label="Fecha"
             color="azul-menta"
+            label="Fecha"
+            type="date"
           />
           <q-input
             v-model="baseImp"
-            type="number"
-            label="Base imponible"
             color="azul-menta"
+            label="Base imponible"
+            type="number"
           />
           <q-select
             v-model="datosRemitente"
             :options="remitentes"
+            color="azul-menta"
             option-label="nombreCliente"
             option-value="idCliente"
-            color="azul-menta"
             placeholder="Remitente"
           />
           <div align="right">
-            <q-btn label="Emitir" type="submit" color="azul-menta" />
+            <q-btn color="azul-menta" label="Emitir" type="submit"/>
             <q-btn
-              label="Cancelar"
-              @click="emitirFact = false"
+              class="q-ml-sm"
               color="azul-menta"
               flat
-              class="q-ml-sm"
+              label="Cancelar"
+              @click="emitirFact = false"
             />
           </div>
         </q-form>
@@ -138,7 +138,7 @@
   <q-dialog v-model="confirmarElimFact" persistent>
     <q-card>
       <q-card-section class="row items-center">
-        <q-avatar icon="warning" color="warning" text-color="white" />
+        <q-avatar color="warning" icon="warning" text-color="white"/>
         <span
           class="q-ml-sm"
           v-html="`¿Estas seguro de que quieres borrar la factura ${idElim}?`"
@@ -147,23 +147,23 @@
 
       <q-card-actions align="right">
         <q-btn
+          v-close-popup
+          color="positive"
           flat
           label="Sí, eliminar"
-          color="positive"
-          v-close-popup
           @click="eliminarElegido(idElim)"
         />
-        <q-btn flat label="No, conservar" color="negative" v-close-popup />
+        <q-btn v-close-popup color="negative" flat label="No, conservar"/>
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import {onMounted, ref} from "vue";
 import Factura from "src/components/Factura.vue";
 import api from "src/boot/httpSingleton";
-import { useQuasar } from "quasar";
+import {useQuasar} from "quasar";
 
 const tuInfo = ref(JSON.parse(window.localStorage.getItem("usuario")));
 const concepto = ref("");
@@ -174,8 +174,8 @@ const baseImp = ref("");
 const datosRemitente = ref("");
 const remitentes = ref([]);
 
-const options = [{ label: "Solo emitidas" }, { label: "Solo recibidas" }];
-const filtroMultiple = ref({ label: "Solo emitidas" });
+const options = [{label: "Solo emitidas"}, {label: "Solo recibidas"}];
+const filtroMultiple = ref({label: "Solo emitidas"});
 const facturasEmitidas = ref([]);
 const facturasRecibidas = ref([]);
 const idElim = ref(0);
@@ -189,13 +189,17 @@ onMounted(() => {
   reunirClientes();
 });
 
-function reunirClientes() {
-  remitentes.value = tuInfo.value.datos.clientes.map((val) => {
-    return {
-      nombreCliente: val.nombre + " " + val.apellidos,
-      idCliente: val._id,
-    };
-  });
+async function reunirClientes() {
+  await fetch(`${urlApi}/usuarios/${tuInfo.value.datos._id}`)
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      remitentes.value = datos.datos.clientes.map((val) => {
+        return {
+          nombreCliente: val.nombre + " " + val.apellidos,
+          idCliente: val._id,
+        };
+      });
+    })
 }
 
 async function emitirFactura() {

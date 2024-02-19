@@ -8,6 +8,7 @@ data class Usuario(
     val nif: String,
     val telefono: String,
     val direccion: String,
+    val clientes: List<Usuario>
 ) {
     val _id: String = ""
 }

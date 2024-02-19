@@ -91,11 +91,15 @@ function registro() {
 }
 
 async function iniciarSesion() {
-  await fetch(`${urlApi}/usuarios/${email.value}/${contrasena.value}`, {
-    method: "GET",
+  await fetch(`${urlApi}/usuarios/auth`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      "correo": email.value,
+      "contra": contrasena.value
+    })
   })
     .then((res) => res.json())
     .then((datos) => {

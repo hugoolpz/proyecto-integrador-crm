@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
+  authUsuario,
   deleteUsuario,
   getUsuario,
-  getUsuarioByCorreoAndContra,
   getUsuarios,
   postUsuario,
   putUsuario,
@@ -12,7 +12,7 @@ const router = Router();
 
 //Establecemos los endpoints de cada solicitud
 router.get("/", getUsuarios);
-router.get("/:correo/:contra", getUsuarioByCorreoAndContra);
+router.post("/auth", authUsuario);
 router.get("/:id", getUsuario);
 router.post("/", postUsuario);
 router.put("/:id", putUsuario);

@@ -7,10 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
+import com.example.vista_movil_pi.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Usuario
 import com.example.vista_movil_pi.navegacion.Vistas
-import com.example.vista_movil_pi.retrofit.InstanciaRetrofit
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -42,7 +41,7 @@ class LoginVM: ViewModel() {
         _cargando.value = true
         viewModelScope.launch {
             try {
-                val result = api.getUsuario(correo, contra)
+                val result = api.getUsuario(Usuario("","", correo, contra, "", "", "", emptyList()))
                 Log.d("Resultado de inicio", result.toString())
                 if (result.isSuccessful) {
                     val response: RespuestaApi<Usuario> = result.body()!!

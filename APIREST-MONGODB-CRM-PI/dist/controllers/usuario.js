@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuarioByCorreoAndContra = exports.getUsuario = exports.getUsuarios = void 0;
+exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.authUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const factura_1 = require("../models/factura");
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -52,8 +52,9 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
 });
 exports.getUsuario = getUsuario;
-const getUsuarioByCorreoAndContra = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { correo, contra } = req.params;
+const authUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { correo, contra } = req.body;
+    console.log(req.body);
     yield factura_1.UsuarioModel.findOne({
         correo: correo,
     })
@@ -61,12 +62,14 @@ const getUsuarioByCorreoAndContra = (req, res) => __awaiter(void 0, void 0, void
         .exec()
         .then((resultado) => {
         if (bcrypt_1.default.compareSync(contra, resultado.contra.toString())) {
+            console.log("Contra perfe " + resultado);
             return res.json({
                 exito: true,
                 datos: resultado,
             });
         }
         else {
+            console.log("Contra no perfe: " + resultado);
             return res.status(500).json({
                 exito: false,
                 error: "Contraseña incorrecta",
@@ -74,15 +77,16 @@ const getUsuarioByCorreoAndContra = (req, res) => __awaiter(void 0, void 0, void
         }
     })
         .catch((error) => {
+        console.log("Error: " + error);
         return res.status(500).json({
             exito: false,
             error,
         });
     });
 });
-exports.getUsuarioByCorreoAndContra = getUsuarioByCorreoAndContra;
+exports.authUsuario = authUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nombre, apellidos, correo, contra, nif, telefono, direccion } = req.body;
+    const { nombre, apellidos, correo, contra, nif, telefono, direccion, clientes, } = req.body;
     let hashContra = bcrypt_1.default.hashSync(contra, 10);
     console.log(req.body);
     const nuevoUsuario = new factura_1.UsuarioModel({
@@ -94,6 +98,7 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         nif,
         telefono,
         direccion,
+        clientes,
     });
     yield nuevoUsuario
         .save()
@@ -113,16 +118,15 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.postUsuario = postUsuario;
 const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { nombre, apellidos, correo, contra, nif, telefono, direccion } = req.body;
-    let hashContra = bcrypt_1.default.hashSync(contra, 10);
-    yield factura_1.UsuarioModel.findByIdAndUpdate({ _id: id }, {
+    const { nombre, apellidos, correo, nif, telefono, direccion, clientes } = req.body;
+    yield factura_1.UsuarioModel.findOneAndUpdate({ _id: id }, {
         nombre,
         apellidos,
         correo,
-        contra: hashContra,
         nif,
         telefono,
         direccion,
+        $push: { clientes: clientes },
     })
         .then((resultado) => {
         return res.status(200).json({

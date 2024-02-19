@@ -3,6 +3,7 @@ package com.example.vista_movil_pi.vista.componentes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.rounded.Create
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -24,16 +30,20 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -45,10 +55,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vista_movil_pi.R
+import com.example.vista_movil_pi.navegacion.Vistas
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +69,7 @@ fun TarjetaMinimizadaFacturas(
     titulo: String,
     total: String,
     alClickar: () -> Unit
-){
+) {
     ElevatedCard(
         onClick = alClickar,
         modifier = Modifier
@@ -106,8 +119,9 @@ fun TarjetaMinimizadaFacturas(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TarjetaInfo(){
-    ElevatedCard(          //Cambiar info de perfil
+fun TarjetaInfo() {
+    ElevatedCard(
+        //Cambiar info de perfil
         onClick = {
         },
         modifier = Modifier
@@ -148,7 +162,8 @@ fun TarjetaInfo(){
             }
         }
     }
-    ElevatedCard(          //Cerrar sesion
+    ElevatedCard(
+        //Cerrar sesion
         onClick = {
         },
         modifier = Modifier
@@ -189,7 +204,8 @@ fun TarjetaInfo(){
             }
         }
     }
-    ElevatedCard(          //Eliminar cuenta
+    ElevatedCard(
+        //Eliminar cuenta
         onClick = {
         },
         modifier = Modifier
@@ -231,6 +247,7 @@ fun TarjetaInfo(){
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TarjetaProyectos() {
@@ -458,5 +475,100 @@ fun LoginTriangulo() {
             strokeWidth = strokeWidth
         )
         drawPath(path = path, color = Color.White, style = Fill)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TarjetaCliente(
+    alClickar: () -> Unit,
+    funcionBtn1: () -> Unit,
+    funcionBtn2: () -> Unit,
+    nombre: String,
+    apellidos: String
+) {
+    ElevatedCard(
+        onClick = alClickar,
+        modifier = Modifier
+            .height(IntrinsicSize.Min)
+            .wrapContentHeight()
+            .padding(5.dp, bottom = 10.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.blanco_claro),
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)
+        ) {
+            Column(
+                Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "$nombre $apellidos",
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Row(
+                Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxHeight()
+                        .padding(end = 5.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    IconButton(
+                        onClick = funcionBtn1,
+                        modifier = Modifier.clip(
+                            RoundedCornerShape(50)
+                        )
+                    ) {
+                        Icon(
+                            Icons.Rounded.Create,
+                            contentDescription = "",
+                            tint = colorResource(id = R.color.blanco_claro),
+                            modifier = Modifier
+                                .size(100.dp, 100.dp)
+                                .background(
+                                    colorResource(id = R.color.azul_verdoso)
+                                )
+                        )
+                    }
+                }
+                Column(
+                    Modifier
+                        .fillMaxHeight()
+                        .padding(start = 5.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    IconButton(
+                        onClick = funcionBtn2,
+                        modifier = Modifier.clip(
+                            RoundedCornerShape(50)
+                        )
+                    ) {
+                        Icon(
+                            Icons.Rounded.Delete,
+                            contentDescription = "",
+                            tint = colorResource(id = R.color.blanco_claro),
+                            modifier = Modifier
+                                .size(100.dp, 100.dp)
+                                .background(
+                                    colorResource(id = R.color.rojo_tomate)
+                                )
+                        )
+                    }
+                }
+            }
+        }
     }
 }

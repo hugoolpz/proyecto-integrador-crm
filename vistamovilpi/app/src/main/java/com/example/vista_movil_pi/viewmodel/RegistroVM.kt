@@ -7,10 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.example.keystore_hugolopezfernandez.modelo.RespuestaApi
+import com.example.vista_movil_pi.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Usuario
 import com.example.vista_movil_pi.navegacion.Vistas
-import com.example.vista_movil_pi.retrofit.InstanciaRetrofit
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -77,7 +76,7 @@ class RegistroVM: ViewModel() {
 
     fun IntentarRegistrarse(nombre: String, apellidos: String, nif: String, telefono: String, contra: String, correo: String, direccion: String, navController: NavController){
         _cargando.value = true
-        val usuario = Usuario(nombre, apellidos, correo, contra, nif, telefono, direccion)
+        val usuario = Usuario(nombre, apellidos, correo, contra, nif, telefono, direccion, emptyList())
         viewModelScope.launch {
             try {
                 val result = api.postUsuario(usuario)
