@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import IProyecto from "../interfaces/proyecto";
 import ITarea from "../interfaces/tarea";
+import IUsuario from "../interfaces/usuario";
 
 const SchemaTarea: Schema = new Schema<ITarea>(
   {
@@ -21,7 +22,11 @@ const SchemaProyecto: Schema = new Schema<IProyecto>(
     subtitulo: { type: Schema.Types.String, required: true },
     descripcion: { type: Schema.Types.String, required: true },
     estado: { type: Schema.Types.Boolean, required: true },
-    tareas: [SchemaTarea],
+    tareas:  { type: [Schema.Types.String], required: true },
+    integrantes: {
+      type: [Schema.Types.ObjectId],
+      ref: "usuarios", required: true 
+    },
   },
   { timestamps: false, versionKey: false }
 );

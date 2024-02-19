@@ -38,7 +38,11 @@ const SchemaProyecto = new mongoose_1.Schema({
     subtitulo: { type: mongoose_1.Schema.Types.String, required: true },
     descripcion: { type: mongoose_1.Schema.Types.String, required: true },
     estado: { type: mongoose_1.Schema.Types.Boolean, required: true },
-    tareas: [SchemaTarea],
+    tareas: { type: [mongoose_1.Schema.Types.String], required: true },
+    integrantes: {
+        type: [mongoose_1.Schema.Types.ObjectId],
+        ref: "usuarios", required: true
+    },
 }, { timestamps: false, versionKey: false });
 exports.ProyectoModel = mongoose_1.default.model("proyectos", SchemaProyecto);
 //# sourceMappingURL=proyecto.js.map

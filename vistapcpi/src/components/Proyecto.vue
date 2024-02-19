@@ -18,7 +18,7 @@
         color="red"
         icon="fas fa-xmark"
         class="absolute"
-        @click="props.estado"
+        @click="$emit('abrirElim')"
         style="top: 5px; right: -20px; transform: translateY(-50%)"
       />
     </q-card-section>
@@ -29,7 +29,12 @@
     </q-card-section>
     <q-card-section class="no-padding">
       <q-list bordered>
-        <ItemTarea titulo-tarea="Tarea 1"></ItemTarea>
+       <div
+         v-for="(tarea, index) in props.nombreTarea"
+         :key="index"
+       >
+         <ItemTarea :titulo-tarea="'('+ (index+1) +') ' + tarea" :es-imp="importante"></ItemTarea>
+       </div>
       </q-list>
     </q-card-section>
   </q-card>
@@ -45,7 +50,11 @@ const props = defineProps({
   descripcion: String,
   estado: Boolean,
   subtitulo: String,
+  nombreTarea:Array,
+  numeroTareas:Number,
+  importante:Array
 });
+
 
 const emits = defineEmits(["abrirElim"]);
 </script>
