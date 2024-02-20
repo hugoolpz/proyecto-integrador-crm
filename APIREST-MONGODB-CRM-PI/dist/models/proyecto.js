@@ -27,9 +27,6 @@ exports.ProyectoModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const SchemaTarea = new mongoose_1.Schema({
     nombre: { type: mongoose_1.Schema.Types.String, required: true },
-    subtitulo: { type: mongoose_1.Schema.Types.String, required: true },
-    tiempoEsp: { type: mongoose_1.Schema.Types.Number, required: true },
-    tiempoReal: { type: mongoose_1.Schema.Types.Number, required: true },
     estado: { type: mongoose_1.Schema.Types.Boolean, required: true },
     esImp: { type: mongoose_1.Schema.Types.Boolean, required: true },
 }, { timestamps: false, versionKey: false });
@@ -38,7 +35,7 @@ const SchemaProyecto = new mongoose_1.Schema({
     subtitulo: { type: mongoose_1.Schema.Types.String, required: true },
     descripcion: { type: mongoose_1.Schema.Types.String, required: true },
     estado: { type: mongoose_1.Schema.Types.Boolean, required: true },
-    tareas: { type: [mongoose_1.Schema.Types.String], required: true },
+    tareas: { type: [SchemaTarea], required: true },
     integrantes: {
         type: [mongoose_1.Schema.Types.ObjectId],
         ref: "usuarios", required: true

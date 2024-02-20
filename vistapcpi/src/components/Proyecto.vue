@@ -21,6 +21,14 @@
         @click="$emit('abrirElim')"
         style="top: 5px; right: -20px; transform: translateY(-50%)"
       />
+      <q-btn
+        fab
+        color="green"
+        icon="fas fa-plus"
+        class="absolute"
+        @click="$emit('abrirTarea')"
+        style="top: 70px; right: -20px; transform: translateY(-50%)"
+      />
     </q-card-section>
 
     <q-separator color="azul-oscuro" />
@@ -30,10 +38,10 @@
     <q-card-section class="no-padding">
       <q-list bordered>
        <div
-         v-for="(tarea, index) in props.nombreTarea"
-         :key="index"
+         v-for="(a, s) in props.nombreTarea"
+         :key="s"
        >
-         <ItemTarea :titulo-tarea="'('+ (index+1) +') ' + tarea" :es-imp="importante"></ItemTarea>
+         <ItemTarea :titulo-tarea="'('+ (s+1) +') ' + a" :es-imp="importante" :estado="props.estado"></ItemTarea>
        </div>
       </q-list>
     </q-card-section>
@@ -50,11 +58,12 @@ const props = defineProps({
   descripcion: String,
   estado: Boolean,
   subtitulo: String,
-  nombreTarea:Array,
+  nombreTarea:String,
   numeroTareas:Number,
-  importante:Array
+
 });
 
 
-const emits = defineEmits(["abrirElim"]);
+const emits = defineEmits(["abrirElim"]["abrirTarea"]);
+
 </script>

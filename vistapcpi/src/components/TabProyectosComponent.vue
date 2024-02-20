@@ -7,16 +7,21 @@
             v-for="n in proyectosExistentes"
             :key="n._id"
           >
-            <Proyecto
-              :nombre="n.nombre"
-              :descripcion="n.descripcion"
-              :estado="n.estado"
-              :subtitulo="n.subtitulo"
-              :nombreTarea="tareasNombres"
-              :numero-tareas="tareasLength"
-              :importante="importante"
-              @abrir-elim="abrirElim(n._id)"
-            ></Proyecto>
+            <div>
+              <Proyecto
+                :id="n._id"
+                :nombre="n.nombre"
+                :descripcion="n.descripcion"
+                :estado="n.estado"
+                :subtitulo="n.subtitulo"
+                :nombreTarea="n.tareas[n].nombre"
+                :numero-tareas="tareasLength"
+                :importante="importante"
+                :tarea-existente="tareaExistente"
+                @abrir-elim="abrirElim(n._id)"
+                @abrir-tarea="abrirTarea(n._id)"
+              ></Proyecto>
+            </div>
             <q-dialog v-model="confirmarElimProy" persistent>
               <q-card>
                 <q-card-section class="row items-center">
@@ -42,6 +47,31 @@
                     v-close-popup
                   />
                 </q-card-actions>
+              </q-card>
+            </q-dialog>
+            <q-dialog v-model="abrirAgregarTarea" persistent>
+              <q-card class="q-pa-md" style="width: 600px">
+                <q-card-section>
+                  <q-form class="q-gutter-lg q-pa-md" @reset="onReset" @submit="emitirTarea(idAnadir)">
+                    <span class="text-azul-oscuro text-h6">Añadir nueva tarea</span>
+                    <q-input
+                      v-model="nombre"
+                      color="azul-menta"
+                      label="Nombre"
+                      type="text"
+                    />
+                    <div align="right">
+                      <q-btn color="azul-menta" label="Emitir" type="submit"/>
+                      <q-btn
+                        class="q-ml-sm"
+                        color="azul-menta"
+                        flat
+                        label="Cancelar"
+                        @click="abrirAgregarTarea = false"
+                      />
+                    </div>
+                  </q-form>
+                </q-card-section>
               </q-card>
             </q-dialog>
             <q-dialog v-model="emitirProy" persistent>
@@ -92,18 +122,20 @@ import api from "src/boot/httpSingleton";
 import { useQuasar } from "quasar";
 
 const proyectosExistentes = ref([]);
-const tareasExistentes = ref([]);
 const urlApi = api;
 const tareasLength = ref()
-const tareasNombres = ref([]);
 const importante =  ref()
 const confirmarElimProy = ref(false)
+const abrirAgregarTarea = ref(false)
 const $q = useQuasar();
 const emitirProy = defineModel();
 const idElim = ref(0);
+const idAnadir = ref(0);
 const nombre = ref("");
 const subtitulo = ref("");
 const descripcion = ref("");
+const tareaExistente = ref(false);
+
 
 onMounted(() => {
   obtenerPro();
@@ -114,19 +146,47 @@ function abrirElim(idElegido) {
   idElim.value = idElegido;
 
 }
+function abrirTarea(idElegido){
+  abrirAgregarTarea.value = true;
+  idAnadir.value = idElegido
+}
 function predeterminado(){
 
   proyectosExistentes.value = []
-  tareasExistentes.value = []
-  tareasNombres.value = []
   tareasLength.value = 0
   importante.value = false
   nombre.value = ""
   subtitulo.value = ""
   descripcion.value = ""
+  tareaExistente.value = false
 
 }
+async function emitirTarea(idElegido){
+  predeterminado()
 
+  await fetch(`${urlApi}/tarea/${idElegido}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nombre: nombre.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((datos) => {
+      console.log(datos)
+
+
+      //Datos del proyecto
+      datos.datos.forEach((proyecto) => {
+
+        proyectosExistentes.value.push(proyecto);
+
+      });
+    });
+
+}
 async function obtenerPro() {
   predeterminado()
   emitirProy.value = false;
@@ -140,27 +200,23 @@ async function obtenerPro() {
     .then((datos) => {
       console.log(datos)
 
+      let data
 
-      let data = datos.datos[0]
-      tareasLength.value = data.tareas.length
-      importante.value = data.importante
+      for (let x = 0 ; x<3;x++){
 
+        data = datos.datos[x]
+        console.log(datos.datos[x])
 
-      //Tareas existentes
-     for(let x=0; x<tareasLength.value;x++){
+      }
 
-       tareasExistentes.value.push(data.tareas[x]);
-       tareasNombres.value.push (data.tareas[x])
-
-     }
-
-     //Datos del proyecto
+      //Datos del proyecto
       datos.datos.forEach((proyecto) => {
 
         proyectosExistentes.value.push(proyecto);
 
       });
     });
+
 }
 async function eliminarElegido(idEliminar) {
   predeterminado()

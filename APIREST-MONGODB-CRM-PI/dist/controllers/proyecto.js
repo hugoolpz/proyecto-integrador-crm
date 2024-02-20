@@ -53,7 +53,7 @@ const getProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getProyecto = getProyecto;
 const postProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
+    const { nombre, subtitulo, descripcion, estado, tareas, integrantes } = req.body;
     const nuevoProyecto = new proyecto_1.ProyectoModel({
         _id: new mongoose_1.default.Types.ObjectId(),
         nombre,
@@ -61,6 +61,7 @@ const postProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         descripcion,
         estado,
         tareas,
+        integrantes
     });
     yield nuevoProyecto
         .save()

@@ -6,9 +6,6 @@ import IUsuario from "../interfaces/usuario";
 const SchemaTarea: Schema = new Schema<ITarea>(
   {
     nombre: { type: Schema.Types.String, required: true },
-    subtitulo: { type: Schema.Types.String, required: true },
-    tiempoEsp: { type: Schema.Types.Number, required: true },
-    tiempoReal: { type: Schema.Types.Number, required: true },
     estado: { type: Schema.Types.Boolean, required: true },
     esImp: { type: Schema.Types.Boolean, required: true },
 
@@ -22,7 +19,7 @@ const SchemaProyecto: Schema = new Schema<IProyecto>(
     subtitulo: { type: Schema.Types.String, required: true },
     descripcion: { type: Schema.Types.String, required: true },
     estado: { type: Schema.Types.Boolean, required: true },
-    tareas:  { type: [Schema.Types.String], required: true },
+    tareas:  { type: [SchemaTarea], required: true },
     integrantes: {
       type: [Schema.Types.ObjectId],
       ref: "usuarios", required: true 
