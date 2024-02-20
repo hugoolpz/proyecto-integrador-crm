@@ -69,6 +69,7 @@
           <q-tab name="clientes" icon="fas fa-user" label="Clientes" />
           <q-tab name="facturas" icon="fas fa-receipt" label="Facturas" />
           <q-tab name="proyectos" icon="fas fa-list-check" label="Proyectos" />
+          <q-tab name="graficos" icon="fas fa-chart-pie" label="Beneficios" />
         </q-tabs>
       </q-toolbar>
     </q-header>
@@ -133,6 +134,9 @@
           <q-tab-panel name="clientes">
             <tab-clientes v-model="registrarCliente"></tab-clientes>
           </q-tab-panel>
+          <q-tab-panel name="graficos" class="flex flex-center">
+            <tab-graficos></tab-graficos>
+          </q-tab-panel>
         </q-tab-panels>
       </q-page>
     </q-page-container>
@@ -145,6 +149,7 @@ import TabClientes from "src/components/TabClientesComponent.vue";
 import TabProyectos from "src/components/TabProyectosComponent.vue";
 import TabFacturas from "src/components/TabFacturasComponent.vue";
 import { useRouter } from "vue-router";
+import TabGraficos from "components/TabGraficosComponent.vue";
 
 const menuIzq = ref(false);
 const completada = ref(false);

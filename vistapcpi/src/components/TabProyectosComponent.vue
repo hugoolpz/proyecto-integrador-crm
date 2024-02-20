@@ -130,7 +130,7 @@ function predeterminado(){
 async function obtenerPro() {
   predeterminado()
   emitirProy.value = false;
-  await fetch(`${urlApi}/proyectos`, {
+  await fetch(`${urlApi}/tuyos/proyectos`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
