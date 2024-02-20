@@ -38,10 +38,10 @@
     <q-card-section class="no-padding">
       <q-list bordered>
        <div
-         v-for="(a, s) in props.nombreTarea"
-         :key="s"
+         v-for="(tarea, indice) in props.tareas"
+         :key="tarea"
        >
-         <ItemTarea :titulo-tarea="'('+ (s+1) +') ' + a" :es-imp="importante" :estado="props.estado"></ItemTarea>
+         <ItemTarea :titulo-tarea="'('+ (indice+1) +') ' + tarea.nombre" :es-imp="tarea.importante" :estado="tarea.completada"></ItemTarea>
        </div>
       </q-list>
     </q-card-section>
@@ -52,18 +52,7 @@ import ItemTarea from "./ItemTarea.vue";
 import { ref } from "vue";
 
 const completada = ref(false);
-
-const props = defineProps({
-  nombre: String,
-  descripcion: String,
-  estado: Boolean,
-  subtitulo: String,
-  nombreTarea:String,
-  numeroTareas:Number,
-
-});
-
-
+const props = defineProps(["nombre", "descripcion", "estado", "subtitulo", "tareas",])
 const emits = defineEmits(["abrirElim"]["abrirTarea"]);
 
 </script>

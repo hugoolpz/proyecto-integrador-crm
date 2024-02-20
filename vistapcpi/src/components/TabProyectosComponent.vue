@@ -4,22 +4,18 @@
       <div class="row" style="width: 80%">
           <div
             class="col-4 q-px-xl q-pb-xl"
-            v-for="n in proyectosExistentes"
-            :key="n._id"
+            v-for="(proy) in proyectosExistentes"
+            :key="proy"
           >
             <div>
               <Proyecto
-                :id="n._id"
-                :nombre="n.nombre"
-                :descripcion="n.descripcion"
-                :estado="n.estado"
-                :subtitulo="n.subtitulo"
-                :nombreTarea="n.tareas"
-                :numero-tareas="tareasLength"
-                :importante="importante"
-                :tarea-existente="tareaExistente"
-                @abrir-elim="abrirElim(n._id)"
-                @abrir-tarea="abrirTarea(n._id)"
+                :nombre="proy.nombre"
+                :descripcion="proy.descripcion"
+                :estado="proy.estado"
+                :subtitulo="proy.subtitulo"
+                :tareas="proy.tareas"
+                @abrir-elim="console.log(proy)"
+                @abrir-tarea="abrirTarea(proy._id)"
               ></Proyecto>
             </div>
             <q-dialog v-model="confirmarElimProy" persistent>
@@ -190,7 +186,7 @@ async function emitirTarea(idElegido){
 async function obtenerPro() {
   predeterminado()
   emitirProy.value = false;
-  await fetch(`${urlApi}/tuyos/proyectos`, {
+  await fetch(`${urlApi}/proyectos`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
