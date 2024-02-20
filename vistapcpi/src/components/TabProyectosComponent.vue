@@ -14,7 +14,7 @@
                 :descripcion="n.descripcion"
                 :estado="n.estado"
                 :subtitulo="n.subtitulo"
-                :nombreTarea="n.tareas[n].nombre"
+                :nombreTarea="n.tareas"
                 :numero-tareas="tareasLength"
                 :importante="importante"
                 :tarea-existente="tareaExistente"
