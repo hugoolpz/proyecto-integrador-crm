@@ -41,15 +41,16 @@ const getProyecto = async (req: Request, res: Response) => {
 };
 
 const postProyecto = async (req: Request, res: Response) => {
-  const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
+  const { nombre, subtitulo, descripcion, estado, tareas,integrantes } = req.body;
 
   const nuevoProyecto = new ProyectoModel({
     _id: new mongoose.Types.ObjectId(),
-    nombre,
-    subtitulo,
-    descripcion,
-    estado,
-    tareas,
+      nombre,
+      subtitulo,
+      descripcion,
+      estado,
+      tareas,
+      integrantes
   });
 
   await nuevoProyecto
