@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="border: 1px solid black">
     <div class="column items-center q-pt-xl" >
       <div class="row">
           <div
@@ -56,6 +56,7 @@
                       label="Nombre"
                       type="text"
                     />
+                    <q-select  v-model="model" label="Importancia" :options="options" />
                     <div align="right">
                       <q-btn color="azul-menta" label="Emitir" type="submit"/>
                       <q-btn
@@ -110,6 +111,7 @@
         </div>
     </div>
   </div>
+
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
@@ -130,7 +132,12 @@ const idAnadir = ref(0);
 const nombre = ref("");
 const subtitulo = ref("");
 const descripcion = ref("");
+const importantes = ref(false);
 const tareaExistente = ref(false);
+const model= ref("")
+const  options = [
+  'Estandar', 'Importante'
+]
 
 
 onMounted(() => {
@@ -155,33 +162,36 @@ function predeterminado(){
   subtitulo.value = ""
   descripcion.value = ""
   tareaExistente.value = false
+  importantes.value = false
 
 }
 async function emitirTarea(idElegido){
-  predeterminado()
 
-  await fetch(`${urlApi}/tarea/${idElegido}`, {
-    method: "POST",
+  if ( model.value === "Importante" ){
+
+    importantes.value = true
+
+  }
+
+  await fetch(`${urlApi}/proyectos/agregarTarea/${idElegido}`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
+
     body: JSON.stringify({
       nombre: nombre.value,
+      importante: importantes.value,
+      estado: false,
     }),
   })
     .then((res) => res.json())
     .then((datos) => {
       console.log(datos)
 
-
-      //Datos del proyecto
-      datos.datos.forEach((proyecto) => {
-
-        proyectosExistentes.value.push(proyecto);
-
-      });
+      obtenerPro();
+      abrirAgregarTarea.value = false
     });
-
 }
 async function obtenerPro() {
   predeterminado()
@@ -212,7 +222,6 @@ async function obtenerPro() {
 
       });
     });
-
 }
 async function eliminarElegido(idEliminar) {
   predeterminado()
@@ -281,7 +290,6 @@ async function emitirProyecto() {
           });
 
           emitirProy.value = false;
-          predeterminado()
           obtenerPro();
 
         }

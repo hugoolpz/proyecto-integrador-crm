@@ -41,7 +41,7 @@
          v-for="(tarea, indice) in props.tareas"
          :key="tarea"
        >
-         <ItemTarea :titulo-tarea="'('+ (indice+1) +') ' + tarea.nombre" :es-imp="tarea.importante" :estado="tarea.completada"></ItemTarea>
+         <ItemTarea :titulo-tarea="'('+ (indice+1) +') ' + tarea.nombre" :esImp="tarea.importante" :estado="tarea.completada"></ItemTarea>
        </div>
       </q-list>
     </q-card-section>

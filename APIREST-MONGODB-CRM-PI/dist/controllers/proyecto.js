@@ -81,15 +81,18 @@ const postProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.postProyecto = postProyecto;
 const putProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
+    const { nombre, importante, estado } = req.body;
     yield proyecto_1.ProyectoModel
-        .findByIdAndUpdate({ _id: id }, {
-        nombre,
-        subtitulo,
-        descripcion,
-        estado,
-        tareas,
-    })
+        .findByIdAndUpdate(id, {
+        $push: {
+            tareas: {
+                nombre,
+                importante,
+                estado,
+            },
+        },
+    }, { new: true } // Devuelve el documento actualizado
+    )
         .then((resultado) => {
         return res.status(200).json({
             exito: true,

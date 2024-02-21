@@ -8,18 +8,18 @@
       <q-item-label>{{ tituloTarea }}</q-item-label>
     </q-item-section>
     <q-item-section avatar>
-      <q-checkbox left-label :v-model="props.estado" color="azul-oscuro" />
+      <q-checkbox left-label v-model="estad0" color="azul-oscuro" />
     </q-item-section>
   </q-item>
 </template>
 <script setup>
 import { ref } from "vue";
 
-const estados = ref(false)
+const estad0 = ref(false)
 
 const props = defineProps({
   tituloTarea: String,
-  esImp: Array,
+  esImp: Boolean,
   estado:Boolean
 });
 </script>

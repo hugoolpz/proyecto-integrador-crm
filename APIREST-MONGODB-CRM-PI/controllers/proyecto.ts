@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import {ProyectoModel} from "../models/proyecto";
+import {TareaModel} from "../models/proyecto";
 
 const getProyectos = async (req: Request, res: Response) => {
   await ProyectoModel
@@ -71,19 +72,20 @@ const postProyecto = async (req: Request, res: Response) => {
 
 const putProyecto = async (req: Request, res: Response) => {
   const { id } = req.params;
-
-  const { nombre, subtitulo, descripcion, estado, tareas } = req.body;
+  const { nombre, importante, estado } = req.body; 
 
   await ProyectoModel
     .findByIdAndUpdate(
-      { _id: id },
+      id,
       {
-        nombre,
-        subtitulo,
-        descripcion,
-        estado,
-        tareas,
-      }
+        $push: {
+          tareas: {
+            nombre,
+            importante,
+            estado,
+          },
+        },
+      },
     )
     .then((resultado) => {
       return res.status(200).json({

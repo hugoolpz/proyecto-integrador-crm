@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", getProyectos);
 router.get("/:id", getProyecto);
 router.post("/", postProyecto);
-router.put("/:id", putProyecto);
+router.put("/agregarTarea/:id", putProyecto);
 router.delete("/:id", deleteProyecto);
 
 export default router;

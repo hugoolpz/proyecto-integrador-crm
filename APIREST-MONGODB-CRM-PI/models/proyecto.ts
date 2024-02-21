@@ -1,16 +1,20 @@
 import mongoose, { Schema, Document } from "mongoose";
 import IProyecto from "../interfaces/proyecto";
 import ITarea from "../interfaces/tarea";
-import IUsuario from "../interfaces/usuario";
 
 const SchemaTarea: Schema = new Schema<ITarea>(
   {
     nombre: { type: Schema.Types.String, required: true },
+    importante: { type: Schema.Types.Boolean, required: true },
     estado: { type: Schema.Types.Boolean, required: true },
-    esImp: { type: Schema.Types.Boolean, required: true },
 
   },
   { timestamps: false, versionKey: false }
+);
+
+export const TareaModel =  mongoose.model<ITarea & Document>(
+  "tareas",
+  SchemaTarea
 );
 
 const SchemaProyecto: Schema = new Schema<IProyecto>(
@@ -32,3 +36,4 @@ export const ProyectoModel =  mongoose.model<IProyecto & Document>(
   "proyectos",
   SchemaProyecto
 );
+
