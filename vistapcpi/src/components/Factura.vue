@@ -3,12 +3,15 @@
   <q-card bordered class="tarjeta-factura">
     <q-card-section class="bg-azul-menta" style="min-height: 150px;">
       <div class="text-h5">{{ concepto }}</div>
-      <q-checkbox color="azul-oscuro" keep-color left-label v-model="completada" :label="filtroMultiple.label == 'Solo emitidas'
+      <q-checkbox @click="$emit('cambiarEstado')" color="azul-oscuro" keep-color left-label v-model="completada" :disable="filtroMultiple.label === 'Solo emitidas'
+      ? false
+      : true
+      " :label="filtroMultiple.label === 'Solo emitidas'
         ? '¿Está cobrada?'
         : '¿Está pagada?'
         " />
       <q-btn fab color="rojo-tomate" icon="fas fa-xmark" class="absolute"
-        style="top: 5px; right: -20px; transform: translateY(-50%)" @click="$emit('abrirElim')" />
+        style="top: 5px; right: -20px; transform: translateY(-50%)" @click="$emit('abrirElim')" v-show="(filtroMultiple.label === 'Solo emitidas')" />
     </q-card-section>
 
     <q-separator color="azul-oscuro" />
@@ -44,7 +47,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
+import api from "src/boot/httpSingleton";
 import ItemListaFactura from "src/components/ItemListaFactura.vue";
 const datosEmisor = ref(false);
 const nFactura = ref(false);
@@ -54,9 +58,26 @@ const retencionIRPF = ref(false);
 const ivaFactura = ref(false);
 const datosRemitente = ref(false);
 const completada = ref(false);
+const urlApi = api
 
-const props = defineProps(['concepto',
+const props = defineProps(['id','concepto',
   'descripcion', 'filtroMultiple', 'emisor', 'nFact', 'fecha', 'base', 'retencion', 'iva', 'remitente'])
 
-const emits = defineEmits(['abrirElim'])
+const emits = defineEmits(['abrirElim', 'cambiarEstado'])
+
+onMounted(() => {
+  obtenerUna(props.id)
+})
+async function obtenerUna(idElegida){
+  await fetch(`${urlApi}/facturas/${idElegida}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((datos) => {
+      completada.value = datos.datos.completada
+    });
+}
 </script>

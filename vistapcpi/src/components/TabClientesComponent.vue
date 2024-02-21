@@ -1,6 +1,6 @@
 <template>
-    <q-table title="Tus clientes" :rows="filas" :columns="columnas" row-key="_id" separator="cell" :loading="cargando"
-        :no-data-label="error" />
+    <q-table class="my-sticky-header-table" title="Tus clientes" :rows="filas" :columns="columnas" row-key="_id" separator="cell" :loading="cargando"
+        :no-data-label="error"/>
   <q-dialog v-model="registrarCliente">
     <q-card>
       <q-card-section>
@@ -15,7 +15,7 @@
           @click="copiarId"
         >
           {{tuInfo.datos._id}}
-          <q-tooltip class="bg-azul-menta" anchor="center right" self="center left" :offset="[10, 10]">Copiar al portapapeles</q-tooltip>
+          <q-tooltip class="bg-azul-menta" anchor="center right" self="center left" :offset="[10, 10]">Copiar</q-tooltip>
         </q-chip>
         <q-form class="q-gutter-lg" @reset="onReset" @submit="intentarRegistro()">
           <q-input v-model="codigo" label="Código de cliente" color="azul-oscuro"></q-input>

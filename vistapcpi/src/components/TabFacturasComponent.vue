@@ -36,6 +36,7 @@
             class="col-4 q-px-xl q-pb-xl"
           >
             <Factura
+              :id="factE._id"
               :base="factE.baseImp + '€'"
               :concepto="factE.concepto"
               :descripcion="factE.descripcion"
@@ -51,6 +52,7 @@
               iva="21%"
               retencion="15%"
               @abrir-elim="abrirElim(factE._id)"
+              @cambiar-estado="cambiarEstado(factE._id)"
             >
             </Factura>
           </div>
@@ -62,6 +64,7 @@
             class="col-4 q-px-xl q-pb-xl"
           >
             <Factura
+              :id="factR._id"
               :base="factR.baseImp + '€'"
               :concepto="factR.concepto"
               :descripcion="factR.descripcion"
@@ -76,7 +79,6 @@
               "
               iva="21%"
               retencion="15%"
-              @abrir-elim="abrirElim(factR._id)"
             >
             </Factura>
           </div>
@@ -203,7 +205,6 @@ async function reunirClientes() {
 }
 
 async function emitirFactura() {
-  console.log(datosRemitente.value);
   if (baseImp.value < 0) {
     $q.notify({
       progress: true,
@@ -246,6 +247,82 @@ async function emitirFactura() {
 
           emitirFact.value = false;
           obtenerFacts();
+        }
+      });
+  }
+}
+
+async function obtenerUna(idElegida){
+  let datosObtenidos = null
+  await fetch(`${urlApi}/facturas/${idElegida}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((datos) => {
+      datosObtenidos = datos.datos
+    });
+  return datosObtenidos
+}
+
+async function cambiarEstado(idElegida) {
+  let datosObt = await obtenerUna(idElegida)
+  if (datosObt.completada === false){
+    await fetch(`${urlApi}/facturas/${idElegida}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        completada: true
+      }),
+    })
+      .then((res) => res.json())
+      .then((datos) => {
+        if (!datos.exito) {
+          $q.notify({
+            progress: true,
+            message: "Error",
+            color: "negative",
+            timeout: 1000,
+          });
+        } else {
+          $q.notify({
+            progress: true,
+            message: "Factura clasificada como cobrada",
+            color: "positive",
+            timeout: 1000,
+          });
+        }
+      });
+  } else {
+    await fetch(`${urlApi}/facturas/${idElegida}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        completada: false
+      }),
+    })
+      .then((res) => res.json())
+      .then((datos) => {
+        if (!datos.exito) {
+          $q.notify({
+            progress: true,
+            message: "Error",
+            color: "negative",
+            timeout: 1000,
+          });
+        } else {
+          $q.notify({
+            progress: true,
+            message: "Factura clasificada como pendiente de cobrar",
+            color: "positive",
+            timeout: 1000,
+          });
         }
       });
   }

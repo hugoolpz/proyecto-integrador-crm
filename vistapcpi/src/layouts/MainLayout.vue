@@ -33,7 +33,7 @@
           class="bg-azul-menta"
         />
         <q-btn
-          v-else
+          v-else-if="tab === 'clientes'"
           flat
           icon="fas fa-plus"
           @click="registrarCliente = true"

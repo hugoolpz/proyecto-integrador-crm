@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column items-center q-pt-xl" >
-      <div class="row" style="width: 80%">
+      <div class="row">
           <div
             class="col-4 q-px-xl q-pb-xl"
             v-for="(proy) in proyectosExistentes"
@@ -14,7 +14,7 @@
                 :estado="proy.estado"
                 :subtitulo="proy.subtitulo"
                 :tareas="proy.tareas"
-                @abrir-elim="console.log(proy)"
+                @abrir-elim="abrirElim(proy._id)"
                 @abrir-tarea="abrirTarea(proy._id)"
               ></Proyecto>
             </div>
