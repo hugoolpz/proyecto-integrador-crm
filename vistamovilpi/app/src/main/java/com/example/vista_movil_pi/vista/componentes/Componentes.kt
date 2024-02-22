@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -532,7 +533,7 @@ fun TarjetaCliente(
                         )
                     ) {
                         Icon(
-                            Icons.Rounded.Create,
+                            Icons.Rounded.Info,
                             contentDescription = "",
                             tint = colorResource(id = R.color.blanco_claro),
                             modifier = Modifier

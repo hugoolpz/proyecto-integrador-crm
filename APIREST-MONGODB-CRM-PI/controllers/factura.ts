@@ -58,6 +58,7 @@ const postFactura = async (req: Request, res: Response) => {
     fecha,
     baseImp,
     datosReceptor,
+    completada: false,
   });
 
   await factura

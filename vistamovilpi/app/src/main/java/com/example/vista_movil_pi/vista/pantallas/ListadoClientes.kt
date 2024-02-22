@@ -25,8 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -35,10 +33,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
-import com.example.vista_movil_pi.modelo.Factura
+import com.example.vista_movil_pi.modelo.Cliente
 import com.example.vista_movil_pi.modelo.Usuario
 import com.example.vista_movil_pi.navegacion.Vistas
 import com.example.vista_movil_pi.viewmodel.ListadoClientesVM
@@ -48,7 +45,7 @@ import com.example.vista_movil_pi.vista.componentes.TarjetaCliente
 @Composable
 fun ListadoClientes(navController: NavController, viewModel: ListadoClientesVM, uid: String){
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    val clientes: List<Usuario> by viewModel.clientes.observeAsState(emptyList())
+    val clientes: List<Cliente> by viewModel.clientes.observeAsState(emptyList())
     val cargando: Boolean by viewModel.cargando.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
@@ -103,7 +100,7 @@ fun ListadoClientes(navController: NavController, viewModel: ListadoClientesVM, 
                 contentColor = colorResource(id = R.color.blanco_claro  ),
                 actions = {
                     Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-                        IconButton(onClick = { /* do something */ }, enabled = false) {
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + uid) }, enabled = false) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.receipt_solid),
@@ -119,7 +116,7 @@ fun ListadoClientes(navController: NavController, viewModel: ListadoClientesVM, 
                                 tint = colorResource(id = R.color.blanco_claro)
                             )
                         }
-                        IconButton(onClick = { navController.navigate(Vistas.ListadoProyectos.ruta)}) {
+                        IconButton(onClick = {}) {
                             Icon(
                                 modifier = Modifier.size(35.dp),
                                 imageVector = Icons.Filled.Person,
