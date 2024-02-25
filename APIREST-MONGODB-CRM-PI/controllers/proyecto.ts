@@ -100,6 +100,64 @@ const putProyecto = async (req: Request, res: Response) => {
       });
     });
 };
+const putTareaE = async (req: Request, res: Response) => {
+  const { id ,tareaid} = req.params;
+  const { estado} = req.body; 
+
+  try {
+    const resultado = await ProyectoModel.findOneAndUpdate(
+      { _id: id, 'tareas._id': tareaid },
+      { $set: { 'tareas.$.estado': estado } },
+      { new: true }
+    );
+
+    if (!resultado) {
+      return res.status(404).json({
+        exito: false,
+        mensaje: 'Proyecto o tarea no encontrada',
+      });
+    }
+
+    return res.status(200).json({
+      exito: true,
+      datos: resultado,
+    });
+  } catch (error) {
+    console.error('Error en la actualización de la tarea:', error);
+    return res.status(500).json({
+      exito: false,
+      error: 'Error interno del servidor',
+    });
+  }
+};
+
+
+const putProyectoE = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const {
+    estado
+  } = req.body;
+
+  await ProyectoModel.findByIdAndUpdate(
+    { _id: id },
+    {
+      estado,
+    }
+  )
+    .then((resultado) => {
+      return res.status(200).json({
+        exito: true,
+        datos: resultado,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        exito: false,
+        error,
+      });
+    });
+};
 
 const deleteProyecto = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -120,4 +178,4 @@ const deleteProyecto = async (req: Request, res: Response) => {
     });
 };
 
-export { getProyectos, getProyecto, postProyecto, putProyecto, deleteProyecto };
+export { getProyectos, getProyecto, putProyectoE,putTareaE, postProyecto, putProyecto, deleteProyecto };

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProyecto = exports.putProyecto = exports.postProyecto = exports.getProyecto = exports.getProyectos = void 0;
+exports.deleteProyecto = exports.putProyecto = exports.postProyecto = exports.putTareaE = exports.putProyectoE = exports.getProyecto = exports.getProyectos = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const proyecto_1 = require("../models/proyecto");
 const getProyectos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,8 +91,7 @@ const putProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 estado,
             },
         },
-    }, { new: true } // Devuelve el documento actualizado
-    )
+    })
         .then((resultado) => {
         return res.status(200).json({
             exito: true,
@@ -107,6 +106,51 @@ const putProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.putProyecto = putProyecto;
+const putTareaE = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, tareaid } = req.params;
+    const { estado } = req.body;
+    try {
+        const resultado = yield proyecto_1.ProyectoModel.findOneAndUpdate({ _id: id, 'tareas._id': tareaid }, { $set: { 'tareas.$.estado': estado } }, { new: true });
+        if (!resultado) {
+            return res.status(404).json({
+                exito: false,
+                mensaje: 'Proyecto o tarea no encontrada',
+            });
+        }
+        return res.status(200).json({
+            exito: true,
+            datos: resultado,
+        });
+    }
+    catch (error) {
+        console.error('Error en la actualización de la tarea:', error);
+        return res.status(500).json({
+            exito: false,
+            error: 'Error interno del servidor',
+        });
+    }
+});
+exports.putTareaE = putTareaE;
+const putProyectoE = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { estado } = req.body;
+    yield proyecto_1.ProyectoModel.findByIdAndUpdate({ _id: id }, {
+        estado,
+    })
+        .then((resultado) => {
+        return res.status(200).json({
+            exito: true,
+            datos: resultado,
+        });
+    })
+        .catch((error) => {
+        return res.status(500).json({
+            exito: false,
+            error,
+        });
+    });
+});
+exports.putProyectoE = putProyectoE;
 const deleteProyecto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     yield proyecto_1.ProyectoModel

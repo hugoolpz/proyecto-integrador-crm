@@ -9,6 +9,7 @@
           >
             <div>
               <Proyecto
+                :_id="proy._id"
                 :nombre="proy.nombre"
                 :descripcion="proy.descripcion"
                 :estado="proy.estado"
@@ -16,6 +17,7 @@
                 :tareas="proy.tareas"
                 @abrir-elim="abrirElim(proy._id)"
                 @abrir-tarea="abrirTarea(proy._id)"
+                @cambiar-estado="cambiarEstado(proy._id)"
               ></Proyecto>
             </div>
             <q-dialog v-model="confirmarElimProy" persistent>
@@ -294,5 +296,79 @@ async function emitirProyecto() {
 
         }
       });
+}
+async function cambiarEstado(idElegida) {
+  let datosObt = await obtenerUna(idElegida)
+  if (datosObt.estado !== false){
+    await fetch(`${urlApi}/proyectos/${idElegida}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        estado: false
+      }),
+    })
+      .then((res) => res.json())
+      .then((datos) => {
+        if (!datos.exito) {
+          $q.notify({
+            progress: true,
+            message: "Error",
+            color: "negative",
+            timeout: 1000,
+          });
+        } else {
+          $q.notify({
+            progress: true,
+            message: "Proyecto clasificado como incompleto",
+            color: "positive",
+            timeout: 1000,
+          });
+        }
+      });
+  } else {
+    await fetch(`${urlApi}/proyectos/${idElegida}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        estado: true
+      }),
+    })
+      .then((res) => res.json())
+      .then((datos) => {
+        if (!datos.exito) {
+          $q.notify({
+            progress: true,
+            message: "Error",
+            color: "negative",
+            timeout: 1000,
+          });
+        } else {
+          $q.notify({
+            progress: true,
+            message: "Proyecto clasificado como completado",
+            color: "positive",
+            timeout: 1000,
+          });
+        }
+      });
+  }
+}
+async function obtenerUna(idElegida){
+  let datosObtenidos = null
+  await fetch(`${urlApi}/proyectos/${idElegida}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((datos) => {
+      datosObtenidos = datos.datos
+    });
+  return datosObtenidos
 }
 </script>
