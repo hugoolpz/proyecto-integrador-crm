@@ -61,10 +61,19 @@ fun Navegacion() {
                 viewModel = RegistroVM()
             )
         }
-        composable("${Vistas.ListadoProyectos.ruta}") {
-            ListadoProyectos(
-                navController = navController,
-            )
+        composable(
+            route = "${Vistas.ListadoProyectos.ruta}?uid={uid}",
+            arguments = listOf(navArgument(name = "uid") {
+                type = NavType.StringType
+            })
+        ) {
+            it.arguments?.getString("uid")
+                ?.let { uid ->
+                    ListadoProyectos(
+                        navController = navController,
+                        uid = uid
+                    )
+                }
         }
         composable(
             route = "${Vistas.ListadoClientes.ruta}?uid={uid}",

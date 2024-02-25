@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -43,7 +44,7 @@ import com.example.vista_movil_pi.vista.componentes.TarjetaProyectos
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListadoProyectos(navController: NavController) {
+fun ListadoProyectos(navController: NavController, uid: String) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -93,7 +94,7 @@ fun ListadoProyectos(navController: NavController) {
                 contentColor = colorResource(id = R.color.blanco_claro),
                 actions = {
                     Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-                        IconButton(onClick = { navController.navigate("ListadoFacturas") }) {
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + uid) }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.receipt_solid),
@@ -101,12 +102,20 @@ fun ListadoProyectos(navController: NavController) {
                                 tint = colorResource(id = R.color.blanco_claro)
                             )
                         }
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { /* do something */ }, enabled = false) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.list_check_solid),
                                 contentDescription = "",
                                 tint = colorResource(id = R.color.rojo_tomate)
+                            )
+                        }
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoClientes.ruta + "?uid=" + uid)}) {
+                            Icon(
+                                modifier = Modifier.size(35.dp),
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = "",
+                                tint = colorResource(id = R.color.blanco_claro)
                             )
                         }
                     }
