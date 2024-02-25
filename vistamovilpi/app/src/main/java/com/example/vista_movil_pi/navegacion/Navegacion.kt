@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.crm.perfilCliente.PerfilCliente
 import com.example.vista_movil_pi.viewmodel.ListadoClientesVM
 import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
 import com.example.vista_movil_pi.viewmodel.LoginVM
+import com.example.vista_movil_pi.viewmodel.PerfilClienteVM
 import com.example.vista_movil_pi.viewmodel.RegistroVM
 
 import com.example.vista_movil_pi.vista.pantallas.FormFactura
@@ -95,5 +97,29 @@ fun Navegacion() {
                 navController = navController,
             )
         }
+        composable(
+            route = "${Vistas.PerfilCliente.ruta}?uid={uid}&indice={indice}",
+            arguments = listOf(
+                navArgument(name = "uid") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "indice") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val uid = it.arguments?.getString("uid")
+            val indice = it.arguments?.getInt("indice")
+
+            if (uid != null && indice != null) {
+                PerfilCliente(
+                    viewModel = PerfilClienteVM(),
+                    navController = navController,
+                    uid = uid,
+                    indice = indice
+                )
+            }
+        }
+
     }
 }
