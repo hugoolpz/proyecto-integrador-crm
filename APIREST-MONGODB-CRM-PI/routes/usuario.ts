@@ -6,6 +6,7 @@ import {
   getUsuarios,
   postUsuario,
   putUsuario,
+  removeCliente,
 } from "../controllers/usuario";
 
 const router = Router();
@@ -16,6 +17,7 @@ router.post("/auth", authUsuario);
 router.get("/:id", getUsuario);
 router.post("/", postUsuario);
 router.put("/:id", putUsuario);
+router.put("/cliente/:id", removeCliente);
 router.delete("/:id", deleteUsuario);
 
 export default router;

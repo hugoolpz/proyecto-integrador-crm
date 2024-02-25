@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.authUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.removeCliente = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.authUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const factura_1 = require("../models/factura");
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -142,6 +142,50 @@ const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
 });
 exports.putUsuario = putUsuario;
+const removeCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { nombre, apellidos, correo, nif, telefono, direccion, clientes } = req.body;
+    // Verificaciones de atributos nulos
+    const updateData = {};
+    if (nombre !== "" && nombre !== undefined) {
+        updateData.nombre = nombre;
+    }
+    if (apellidos !== "" && apellidos !== undefined) {
+        updateData.apellidos = apellidos;
+    }
+    if (correo !== "" && correo !== undefined) {
+        updateData.correo = correo;
+    }
+    if (nif !== "" && nif !== undefined) {
+        updateData.nif = nif;
+    }
+    if (telefono !== "" && telefono !== undefined) {
+        updateData.telefono = telefono;
+    }
+    if (direccion !== "" && direccion !== undefined) {
+        updateData.direccion = direccion;
+    }
+    if (clientes !== null && clientes !== undefined) {
+        updateData.clientes = clientes;
+    }
+    else {
+        updateData.$pull = { clientes: { $exists: true } };
+    }
+    yield factura_1.UsuarioModel.findOneAndUpdate({ _id: id }, updateData)
+        .then((resultado) => {
+        return res.status(200).json({
+            exito: true,
+            datos: resultado,
+        });
+    })
+        .catch((error) => {
+        return res.status(500).json({
+            exito: false,
+            error,
+        });
+    });
+});
+exports.removeCliente = removeCliente;
 const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     yield factura_1.UsuarioModel.findByIdAndDelete({ _id: id })

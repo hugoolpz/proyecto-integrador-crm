@@ -9,6 +9,7 @@ router.post("/auth", usuario_1.authUsuario);
 router.get("/:id", usuario_1.getUsuario);
 router.post("/", usuario_1.postUsuario);
 router.put("/:id", usuario_1.putUsuario);
+router.put("/cliente/:id", usuario_1.removeCliente);
 router.delete("/:id", usuario_1.deleteUsuario);
 exports.default = router;
 //# sourceMappingURL=usuario.js.map
