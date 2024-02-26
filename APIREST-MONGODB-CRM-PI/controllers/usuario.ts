@@ -150,6 +150,53 @@ const putUsuario = async (req: Request, res: Response) => {
     });
 };
 
+const removeCliente = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { nombre, apellidos, correo, nif, telefono, direccion, clientes } =
+    req.body;
+
+  // Verificaciones de atributos nulos
+  const updateData: any = {};
+  if (nombre !== "" && nombre !== undefined) {
+    updateData.nombre = nombre;
+  }
+  if (apellidos !== "" && apellidos !== undefined) {
+    updateData.apellidos = apellidos;
+  }
+  if (correo !== "" && correo !== undefined) {
+    updateData.correo = correo;
+  }
+  if (nif !== "" && nif !== undefined) {
+    updateData.nif = nif;
+  }
+  if (telefono !== "" && telefono !== undefined) {
+    updateData.telefono = telefono;
+  }
+  if (direccion !== "" && direccion !== undefined) {
+    updateData.direccion = direccion;
+  }
+
+  if (clientes !== null && clientes !== undefined) {
+    updateData.clientes = clientes;
+  } else {
+    updateData.$pull = { clientes: { $exists: true } };
+  }
+
+  await UsuarioModel.findOneAndUpdate({ _id: id }, updateData)
+    .then((resultado) => {
+      return res.status(200).json({
+        exito: true,
+        datos: resultado,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        exito: false,
+        error,
+      });
+    });
+};
+
 const deleteUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -175,4 +222,5 @@ export {
   postUsuario,
   putUsuario,
   deleteUsuario,
+  removeCliente,
 };

@@ -4,11 +4,11 @@ data class Factura(
     val concepto: String,
     val completada: Boolean,
     val descripcion: String,
-    val datosEmisor: Usuario,
+    val datosEmisor: Cliente,
     val numero: String,
     val fecha: String,
     val baseImp: Double,
-    val datosReceptor: Usuario
+    val datosReceptor: Cliente
 ) {
     val _id: String = ""
 }
