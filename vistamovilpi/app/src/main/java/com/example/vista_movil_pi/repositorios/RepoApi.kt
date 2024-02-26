@@ -26,6 +26,8 @@ interface RepoApi {
     @GET("api/usuarios/{id}")
     suspend fun getClientes(@Path("id") id: String): Response<RespuestaApi<Usuario>>
     @PUT("api/usuarios/cliente/{id}")
+    suspend fun removeCliente(@Path("id") id: String, @Body usuario: Usuario): Response<RespuestaApi<Usuario>>
+    @PUT("api/usuarios/{id}")
     suspend fun putCliente(@Path("id") id: String, @Body usuario: Usuario): Response<RespuestaApi<Usuario>>
 
     @POST("api/proyectos")
