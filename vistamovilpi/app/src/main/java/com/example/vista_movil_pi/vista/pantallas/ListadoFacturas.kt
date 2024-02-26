@@ -121,7 +121,7 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
                                 tint = colorResource(id = R.color.rojo_tomate)
                             )
                         }
-                        IconButton(onClick = { navController.navigate(Vistas.ListadoProyectos.ruta)}) {
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoProyectos.ruta + "?uid=" + uid) }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.list_check_solid),
@@ -129,7 +129,7 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
                                 tint = colorResource(id = R.color.blanco_claro)
                             )
                         }
-                        IconButton(onClick = { navController.navigate(Vistas.ListadoClientes.ruta + "?id=" + uid)}) {
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoClientes.ruta + "?uid=" + uid)}) {
                             Icon(
                                 modifier = Modifier.size(35.dp),
                                 imageVector = Icons.Filled.Person,

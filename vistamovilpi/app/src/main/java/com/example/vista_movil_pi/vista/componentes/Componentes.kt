@@ -4,11 +4,14 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +26,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -59,7 +64,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
+import com.example.vista_movil_pi.modelo.Proyecto
 import com.example.vista_movil_pi.navegacion.Vistas
 import kotlinx.coroutines.launch
 
@@ -250,9 +257,13 @@ fun TarjetaInfo() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TarjetaProyectos() {
-    //var isChecked by remember { mutableStateOf(false) }
-    val checkboxStates = remember { mutableStateListOf(false, false, false, false) }
+fun TarjetaProyectos(
+    uid: String,
+    navController: NavController,
+    proyecto: Proyecto,
+    eliminarProyecto: () -> Unit
+) {
+    val checkboxStates = remember { mutableStateListOf<Boolean>() }
 
     ElevatedCard(
 
@@ -281,47 +292,83 @@ fun TarjetaProyectos() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Título del proyecto...",
+                    text = proyecto.nombre,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
                 )
                 Text(
-                    text = "Subtitulo del proyecto...",
+                    text = proyecto.subtitulo,
                     color = colorResource(id = R.color.azul_verdoso),
                     fontSize = 16.sp
                 )
                 Text(
                     modifier = Modifier.padding(top = 30.dp, bottom = 10.dp),
-                    text = "Descripción del proyecto...",
+                    text = proyecto.descripcion,
                     color = colorResource(id = R.color.azul_verdoso),
                     fontSize = 16.sp
                 )
-                Text(
-                    text = "Importante*",
-                    fontSize = 12.sp
-                )
-                for (i in 0 until 4) {
+                proyecto.tareas.forEachIndexed { index, tarea ->
+                    Text(
+                        text = if (proyecto.tareas[index].importante) "Importante*" else "Estándar",
+                        fontSize = 12.sp,
+                        color = Color(0xFFEE7E4F)
+                    )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
                     ) {
+                        if (checkboxStates.size <= index) {
+                            checkboxStates.add(false)
+                        }
                         Text(
-                            text = "Título de tarea ${i + 1}",
+                            text = tarea.nombre,
                             fontSize = 18.sp,
-                            textDecoration = if (checkboxStates[i]) TextDecoration.LineThrough else TextDecoration.None,
-                            modifier = Modifier.clickable {
-                                checkboxStates.forEachIndexed { index, _ ->
-                                    checkboxStates[index] = index == i
+                            textDecoration = if (checkboxStates[index]) TextDecoration.LineThrough else TextDecoration.None,
+                            modifier = Modifier
+                                .clickable {
+                                    checkboxStates.forEachIndexed { i, _ ->
+                                        checkboxStates[i] = i == index
+                                    }
                                 }
-                            }
+                                .weight(1f)
                         )
                         Checkbox(
-                            checked = checkboxStates[i],
+                            checked = checkboxStates[index],
                             onCheckedChange = {
-                                checkboxStates[i] = it
+                                checkboxStates[index] = it
                             },
-                            modifier = Modifier.padding(start = 150.dp, end = 50.dp)
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp)
                         )
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Button(
+                            onClick = { navController.navigate(Vistas.FormTarea.ruta + "?uid=" + uid + "&pid=" + proyecto._id) },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = "Agregar tarea")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = { eliminarProyecto() },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = "Eliminar proyecto")
+                        }
                     }
                 }
             }
@@ -532,7 +579,7 @@ fun TarjetaCliente(
                         )
                     ) {
                         Icon(
-                            Icons.Rounded.Create,
+                            Icons.Rounded.Info,
                             contentDescription = "",
                             tint = colorResource(id = R.color.blanco_claro),
                             modifier = Modifier

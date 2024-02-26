@@ -9,5 +9,10 @@ sealed class Vistas(val ruta: String) {
     object ListadoProyectos: Vistas("ListadoProyectos")
     object ListadoClientes: Vistas("ListadoClientes")
     object Opciones: Vistas("Opciones")
+    object PerfilCliente: Vistas("PerfilCliente")
+
+    object FormProyecto: Vistas("FormProyecto")
+
+    object FormTarea: Vistas("FormTarea")
 
 }

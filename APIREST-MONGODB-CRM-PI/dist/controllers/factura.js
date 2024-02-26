@@ -67,6 +67,7 @@ const postFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         fecha,
         baseImp,
         datosReceptor,
+        completada: false,
     });
     yield factura
         .save()

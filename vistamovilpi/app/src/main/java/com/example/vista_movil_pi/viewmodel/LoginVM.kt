@@ -35,7 +35,7 @@ class LoginVM: ViewModel() {
 
     private fun EsCorreoValido(correo: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(correo).matches()
 
-    private fun EsContraValida(contra: String): Boolean = contra.length > 6
+    private fun EsContraValida(contra: String): Boolean = contra.length > 3
 
     fun IntentarInicioSesion(correo: String, contra: String, navController: NavController){
         _cargando.value = true
