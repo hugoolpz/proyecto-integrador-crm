@@ -62,7 +62,9 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
     var soloRecibidas by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+
         viewModel.getFacturas(uid)
+
     }
 
     Scaffold(

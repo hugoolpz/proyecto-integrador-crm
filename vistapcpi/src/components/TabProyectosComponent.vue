@@ -1,5 +1,5 @@
 <template>
-  <div style="border: 1px solid black">
+  <div>
     <div class="column items-center q-pt-xl" >
       <div class="row">
           <div

@@ -47,7 +47,7 @@ import com.example.vista_movil_pi.vista.componentes.InputDelineado
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormFactura(navController: NavController){
+fun FormFactura(navController: NavController, uid: String){
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val context = LocalContext.current
     val clientes = arrayOf("Cliente#1", "Cliente#2", "Cliente#3", "Cliente#4", "Cliente#5")
@@ -103,7 +103,7 @@ fun FormFactura(navController: NavController){
                 contentColor = colorResource(id = R.color.blanco_claro  ),
                 actions = {
                     Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-                        IconButton(onClick = { navController.navigate(Vistas.ListadoFacturas.ruta) }) {
+                        IconButton(onClick = { navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + uid) }) {
                             Icon(
                                 modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = R.drawable.receipt_solid),

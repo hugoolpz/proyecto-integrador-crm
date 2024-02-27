@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.crm.perfilCliente.PerfilCliente
+import com.example.vista_movil_pi.viewmodel.FacturaVM
 import com.example.vista_movil_pi.viewmodel.ListadoClientesVM
 import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
 import com.example.vista_movil_pi.viewmodel.ListadoProyectosVM
@@ -46,16 +47,42 @@ fun Navegacion() {
                     )
                 }
         }
-        composable("${Vistas.Factura.ruta}") {
-            Factura(
-                navController = navController,
-            )
+        composable( route = "${Vistas.Factura.ruta}?id={id}&uid={uid}",
+            arguments = listOf(
+                navArgument(name = "uid") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "id") {
+                    type = NavType.StringType
+                }
+            )) {
+            val uid = it.arguments?.getString("uid")
+            val id = it.arguments?.getString("id")
+
+            if (uid != null && id != null) {
+                Factura(
+                    viewModel = FacturaVM(),
+                    navController = navController,
+                    uid = uid,
+                    id = id
+                )
+            }
         }
-        composable("${Vistas.FormFactura.ruta}") {
-            FormFactura(
-                navController = navController,
-            )
+        composable(
+            route = "${Vistas.FormFactura.ruta}?uid={uid}",
+            arguments = listOf(navArgument(name = "uid") {
+                type = NavType.StringType
+            })
+        ) {
+            it.arguments?.getString("uid")
+                ?.let { uid ->
+                    FormFactura(
+                        navController = navController,
+                        uid = uid
+                    )
+                }
         }
+
         composable("${Vistas.Login.ruta}") {
             Login(
                 navController = navController,

@@ -25,4 +25,6 @@ data class Cliente(
 
     // Constructor secundario solo con _id
     constructor(_id: String) : this(_id, "", "", "", "", "", "", "", emptyList())
+
+    constructor() : this("", "", "", "", "", "", "", "", emptyList())
 }

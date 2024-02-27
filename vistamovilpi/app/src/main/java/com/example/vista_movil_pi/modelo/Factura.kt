@@ -11,4 +11,7 @@ data class Factura(
     val datosReceptor: Cliente
 ) {
     val _id: String = ""
+
+    // Constructor vacío
+    constructor() : this("", false, "", Cliente(), "", "", 0.0, Cliente())
 }

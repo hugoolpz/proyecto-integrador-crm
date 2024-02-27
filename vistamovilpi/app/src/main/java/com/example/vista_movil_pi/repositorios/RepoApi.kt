@@ -23,6 +23,9 @@ interface RepoApi {
     @GET("api/facturas/tuyas/{id}")
     suspend fun getFacturas(@Path("id") id: String): Response<RespuestaApi<List<Factura>>>
 
+    @GET("api/facturas/{id}")
+    suspend fun getFactura(@Path("id") id: String): Response<RespuestaApi<Factura>>
+
     @GET("api/usuarios/{id}")
     suspend fun getClientes(@Path("id") id: String): Response<RespuestaApi<Usuario>>
     @PUT("api/usuarios/cliente/{id}")

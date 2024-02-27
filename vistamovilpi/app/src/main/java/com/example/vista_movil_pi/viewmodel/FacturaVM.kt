@@ -8,29 +8,28 @@ import com.example.vista_movil_pi.modelo.RespuestaApi
 import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.retrofit.InstanciaRetrofit.RetrofitInstance.api
 
-class ListadoFacturasVM: ViewModel() {
+class FacturaVM: ViewModel() {
     private val _cargando = MutableLiveData<Boolean>()
     val cargando : LiveData<Boolean> = _cargando
 
-    private val _facturas = MutableLiveData<List<Factura>>()
-    val facturas: LiveData<List<Factura>> = _facturas
+    private val _factura = MutableLiveData<Factura>()
+    val factura: LiveData<Factura> = _factura
 
-    suspend fun getFacturas(uid: String) {
+    suspend fun getFactura(id: String) {
         _cargando.value = true
         try {
-            val result = api.getFacturas(uid)
+            val result = api.getFactura(id)
             if (result.isSuccessful) {
-                val response: RespuestaApi<List<Factura>> = result.body()!!
+                val response: RespuestaApi<Factura> = result.body()!!
                 if (response.exito == true){
                     Log.d("Datos facturas", response.datos.toString())
-                    _facturas.value = response.datos!!
+                    _factura.value = response.datos!!
                 }
             }
         } catch (e: Exception) {
-            Log.e("ViewModel", "Error en getFacturas()", e)
+            Log.e("ViewModel", "Error en getFactura()", e)
             // Maneja los errores aquí
         }
         _cargando.value = false
     }
-
 }
