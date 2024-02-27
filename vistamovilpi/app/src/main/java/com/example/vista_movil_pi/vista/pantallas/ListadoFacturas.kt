@@ -143,7 +143,7 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { navController.navigate(Vistas.FormFactura.ruta) },
+                        onClick = { navController.navigate(Vistas.FormFactura.ruta + "?uid=" + uid) },
                         containerColor = colorResource(id = R.color.blanco_claro),
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                     ) {

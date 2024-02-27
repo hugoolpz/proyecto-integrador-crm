@@ -1,7 +1,6 @@
 package com.example.vista_movil_pi.vista.pantallas
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,15 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
@@ -49,18 +43,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
 import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.navegacion.Vistas
 import com.example.vista_movil_pi.viewmodel.FacturaVM
-import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
-import com.example.vista_movil_pi.vista.componentes.TarjetaMinimizadaFacturas
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun Factura(navController: NavController, viewModel: FacturaVM, uid:String, id:String) {
+fun FacturaDetallada(navController: NavController, viewModel: FacturaVM, uid:String, id:String) {
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val factura: Factura by viewModel.factura.observeAsState(Factura())

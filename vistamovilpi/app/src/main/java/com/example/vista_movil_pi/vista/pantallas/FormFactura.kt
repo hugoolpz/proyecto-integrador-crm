@@ -1,6 +1,5 @@
 package com.example.vista_movil_pi.vista.pantallas
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,14 +24,16 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -41,19 +42,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
+import com.example.vista_movil_pi.modelo.Cliente
+import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.navegacion.Vistas
+import com.example.vista_movil_pi.viewmodel.FormFacturaVM
 import com.example.vista_movil_pi.vista.componentes.BotonTonal
 import com.example.vista_movil_pi.vista.componentes.InputDelineado
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormFactura(navController: NavController, uid: String){
+fun FormFactura(navController: NavController, uid: String, viewModel: FormFacturaVM){
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val context = LocalContext.current
-    val clientes = arrayOf("Cliente#1", "Cliente#2", "Cliente#3", "Cliente#4", "Cliente#5")
     var expandido by remember { mutableStateOf(false) }
-    var clienteSeleccionado by remember { mutableStateOf("") }
-    var listaItemsFact by remember { mutableStateOf (1) }
+    val cargando: Boolean by viewModel.cargando.observeAsState(false)
+    val clientes: MutableList<Cliente>? by viewModel.clientes.observeAsState(null)
+    val remitenteElegido: Cliente by viewModel.remitenteElegido.observeAsState(Cliente())
+    val remitente: String by viewModel.remitente.observeAsState("")
+    val botonActivo: Boolean by viewModel.botonActivo.observeAsState(false)
+    val concepto: String by viewModel.concepto.observeAsState("")
+    val descripcion: String by viewModel.descripcion.observeAsState("")
+    val fecha: String by viewModel.fecha.observeAsState("")
+    val baseImponible: String by viewModel.baseImponible.observeAsState("")
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        viewModel.getClientes(uid)
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -135,8 +151,10 @@ fun FormFactura(navController: NavController, uid: String){
                 }
                 item {
                     InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
+                        valor = concepto,
+                        alCambiarValor = {
+                            viewModel.CambiarInputs(it, descripcion, fecha, baseImponible, remitenteElegido)
+                        },
                         etiqueta = { Text(text = "Concepto") },
                         placeholder = { Text(text = "Un concepto...") },
                         esContra = false
@@ -144,8 +162,8 @@ fun FormFactura(navController: NavController, uid: String){
                 }
                 item {
                     InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
+                        valor = descripcion,
+                        alCambiarValor = { viewModel.CambiarInputs(concepto, it, fecha, baseImponible, remitenteElegido)},
                         etiqueta = { Text(text = "Descripción") },
                         placeholder = { Text(text = "Una descripción...") },
                         esContra = false
@@ -153,17 +171,8 @@ fun FormFactura(navController: NavController, uid: String){
                 }
                 item {
                     InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
-                        etiqueta = { Text(text = "Número") },
-                        placeholder = { Text(text = "El nº de la factura...") },
-                        esContra = false
-                    )
-                }
-                item {
-                    InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
+                        valor = fecha,
+                        alCambiarValor = {viewModel.CambiarInputs(concepto, descripcion, it, baseImponible, remitenteElegido)},
                         etiqueta = { Text(text = "Fecha") },
                         placeholder = { Text(text = "La fecha...") },
                         esContra = false
@@ -171,28 +180,10 @@ fun FormFactura(navController: NavController, uid: String){
                 }
                 item {
                     InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
+                        valor = baseImponible,
+                        alCambiarValor = {viewModel.CambiarInputs(concepto, descripcion, fecha, it, remitenteElegido)},
                         etiqueta = { Text(text = "Base imponible") },
                         placeholder = { Text(text = "La base imponible...") },
-                        esContra = false
-                    )
-                }
-                item {
-                    InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
-                        etiqueta = { Text(text = "Retención de IRPF") },
-                        placeholder = { Text(text = "La retención...") },
-                        esContra = false
-                    )
-                }
-                item {
-                    InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
-                        etiqueta = { Text(text = "IVA") },
-                        placeholder = { Text(text = "Porcentaje del IVA...") },
                         esContra = false
                     )
                 }
@@ -207,8 +198,8 @@ fun FormFactura(navController: NavController, uid: String){
                             .padding(top = 10.dp, bottom = 10.dp)
                     ) {
                         OutlinedTextField(
-                            value = clienteSeleccionado,
-                            onValueChange = {},
+                            value = remitente,
+                            onValueChange = {  },
                             readOnly = true,
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandido) },
                             label = { Text(text = "Remitente de la factura") },
@@ -228,13 +219,12 @@ fun FormFactura(navController: NavController, uid: String){
                             expanded = expandido,
                             onDismissRequest = { expandido = false },
                         ) {
-                            clientes.forEach { item ->
+                            clientes?.forEach { item ->
                                 DropdownMenuItem(
-                                    text = { Text(text = item) },
+                                    text = { Text(text = "${item.nombre} ${item.apellidos}") },
                                     onClick = {
-                                        clienteSeleccionado = item
+                                        viewModel.CambiarInputs(concepto, descripcion, fecha, baseImponible, item)
                                         expandido = false
-                                        Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                                     },
                                     modifier = Modifier
                                         .background(colorResource(id = R.color.blanco_claro))
@@ -245,29 +235,14 @@ fun FormFactura(navController: NavController, uid: String){
                     }
                 }
                 item {
-                    BotonTonal(alClickar = { listaItemsFact++ }, valorTexto = "Nuevo item factura")
-                }
-                items(listaItemsFact){ indice ->
-                    InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
-                        etiqueta = { Text(text = "Concepto item #" + (indice+1)) },
-                        placeholder = { Text(text = "El concepto...") },
-                        esContra = false
-                    )
-                    InputDelineado(
-                        valor = "",
-                        alCambiarValor = {},
-                        etiqueta = { Text(text = "Precio item #" + (indice+1)) },
-                        placeholder = { Text(text = "El precio...") },
-                        esContra = false
-                    )
-                }
-                item {
-                    BotonTonal(alClickar = { }, valorTexto = "Registrar factura")
-                }
-                item{
+                    BotonTonal(alClickar =
+                    {
+                        val factura: Factura = Factura(concepto, false, descripcion,
+                            Cliente(uid), "", fecha, baseImponible.toDouble(), Cliente(remitenteElegido._id)
+                        )
 
+                        scope.launch{viewModel.postFactura(uid, factura, navController)}
+                    }, valorTexto = "Registrar factura", estaActivo = botonActivo)
                 }
             })
         }

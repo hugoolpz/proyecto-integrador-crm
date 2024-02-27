@@ -1,7 +1,6 @@
 package com.example.vista_movil_pi.navegacion
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.crm.perfilCliente.PerfilCliente
 import com.example.vista_movil_pi.viewmodel.FacturaVM
+import com.example.vista_movil_pi.viewmodel.FormFacturaVM
 import com.example.vista_movil_pi.viewmodel.ListadoClientesVM
 import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
 import com.example.vista_movil_pi.viewmodel.ListadoProyectosVM
@@ -18,7 +18,7 @@ import com.example.vista_movil_pi.viewmodel.ProyectoVM
 import com.example.vista_movil_pi.viewmodel.RegistroVM
 
 import com.example.vista_movil_pi.vista.pantallas.FormFactura
-import com.example.vista_movil_pi.vista.pantallas.Factura
+import com.example.vista_movil_pi.vista.pantallas.FacturaDetallada
 import com.example.vista_movil_pi.vista.pantallas.FormProyecto
 import com.example.vista_movil_pi.vista.pantallas.FormTarea
 import com.example.vista_movil_pi.vista.pantallas.ListadoClientes
@@ -60,7 +60,7 @@ fun Navegacion() {
             val id = it.arguments?.getString("id")
 
             if (uid != null && id != null) {
-                Factura(
+                FacturaDetallada(
                     viewModel = FacturaVM(),
                     navController = navController,
                     uid = uid,
@@ -78,7 +78,8 @@ fun Navegacion() {
                 ?.let { uid ->
                     FormFactura(
                         navController = navController,
-                        uid = uid
+                        uid = uid,
+                        viewModel = FormFacturaVM()
                     )
                 }
         }
