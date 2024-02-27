@@ -120,22 +120,35 @@ const postUsuario = async (req: Request, res: Response) => {
 
 const putUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   const { nombre, apellidos, correo, nif, telefono, direccion, clientes } =
     req.body;
 
-  await UsuarioModel.findOneAndUpdate(
-    { _id: id },
-    {
-      nombre,
-      apellidos,
-      correo,
-      nif,
-      telefono,
-      direccion,
-      $push: { clientes: clientes },
-    }
-  )
+  // Verificaciones de atributos nulos
+  const updateData: any = {};
+  if (nombre !== "" && nombre !== undefined) {
+    updateData.nombre = nombre;
+  }
+  if (apellidos !== "" && apellidos !== undefined) {
+    updateData.apellidos = apellidos;
+  }
+  if (correo !== "" && correo !== undefined) {
+    updateData.correo = correo;
+  }
+  if (nif !== "" && nif !== undefined) {
+    updateData.nif = nif;
+  }
+  if (telefono !== "" && telefono !== undefined) {
+    updateData.telefono = telefono;
+  }
+  if (direccion !== "" && direccion !== undefined) {
+    updateData.direccion = direccion;
+  }
+
+  if (clientes !== null && clientes !== undefined) {
+    updateData.$push = { clientes: clientes };
+  }
+
+  await UsuarioModel.findOneAndUpdate({ _id: id }, updateData)
     .then((resultado) => {
       return res.status(200).json({
         exito: true,

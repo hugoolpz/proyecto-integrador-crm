@@ -119,15 +119,30 @@ exports.postUsuario = postUsuario;
 const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { nombre, apellidos, correo, nif, telefono, direccion, clientes } = req.body;
-    yield factura_1.UsuarioModel.findOneAndUpdate({ _id: id }, {
-        nombre,
-        apellidos,
-        correo,
-        nif,
-        telefono,
-        direccion,
-        $push: { clientes: clientes },
-    })
+    // Verificaciones de atributos nulos
+    const updateData = {};
+    if (nombre !== "" && nombre !== undefined) {
+        updateData.nombre = nombre;
+    }
+    if (apellidos !== "" && apellidos !== undefined) {
+        updateData.apellidos = apellidos;
+    }
+    if (correo !== "" && correo !== undefined) {
+        updateData.correo = correo;
+    }
+    if (nif !== "" && nif !== undefined) {
+        updateData.nif = nif;
+    }
+    if (telefono !== "" && telefono !== undefined) {
+        updateData.telefono = telefono;
+    }
+    if (direccion !== "" && direccion !== undefined) {
+        updateData.direccion = direccion;
+    }
+    if (clientes !== null && clientes !== undefined) {
+        updateData.$push = { clientes: clientes };
+    }
+    yield factura_1.UsuarioModel.findOneAndUpdate({ _id: id }, updateData)
         .then((resultado) => {
         return res.status(200).json({
             exito: true,
