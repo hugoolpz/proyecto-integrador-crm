@@ -1,8 +1,10 @@
 package com.example.vista_movil_pi.vista.pantallas
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -37,6 +40,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,6 +56,7 @@ import com.example.vista_movil_pi.modelo.Factura
 import com.example.vista_movil_pi.navegacion.Vistas
 import com.example.vista_movil_pi.viewmodel.ListadoFacturasVM
 import com.example.vista_movil_pi.vista.componentes.TarjetaMinimizadaFacturas
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +65,7 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
     val facturas: List<Factura> by viewModel.facturas.observeAsState(emptyList())
     val cargando: Boolean by viewModel.cargando.observeAsState(initial = false)
     var soloRecibidas by remember { mutableStateOf(false) }
+    var scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
 
@@ -158,11 +164,15 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
             .background(colorResource(id = R.color.blanco_claro))
             .padding(innerPadding))
         {
-            LazyColumn(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp, start = 15.dp, end = 15.dp).fillMaxSize(),
+            LazyColumn(modifier = Modifier
+                .padding(top = 5.dp, bottom = 5.dp, start = 15.dp, end = 15.dp)
+                .fillMaxSize(),
                 content = {
                     item {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(bottom=5.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 5.dp),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -228,14 +238,33 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
                                 TarjetaMinimizadaFacturas(facturas[indice].concepto,
                                     "$total €", alClickar = {
                                     navController.navigate(Vistas.Factura.ruta + "?id=" + facturas[indice]._id + "&uid=" + uid)
-                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)})
+                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)}, completada = facturas[indice].completada, modifier = Modifier
+                                    .height(IntrinsicSize.Min)
+                                    .wrapContentHeight()
+                                    .padding(5.dp, bottom = 10.dp), alCheckear = {
+                                        scope.launch {
+                                            if (facturas[indice].completada){
+                                                val factura = Factura(completada = false)
+                                                viewModel.putFactura(facturas[indice]._id, uid, factura, navController)
+                                                Log.d("hecho", "Se pondría en false")
+                                            } else {
+                                                val factura = Factura(completada = true)
+                                                viewModel.putFactura(facturas[indice]._id, uid, factura, navController)
+                                                Log.d("hecho", "Se pondría en true")
+                                            }
+                                        }
+                                    })
                             }
                         } else {
                             if (facturas[indice].datosEmisor._id != uid){
                                 TarjetaMinimizadaFacturas(facturas[indice].concepto,
                                     "$total €", alClickar = {
                                     navController.navigate(Vistas.Factura.ruta + "?id=" + facturas[indice]._id + "&uid=" + uid)
-                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)}, esEmitida = false)
+                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)}, esEmitida = false, completada = facturas[indice].completada, modifier = Modifier
+                                        .height(IntrinsicSize.Min)
+                                        .wrapContentHeight()
+                                        .padding(5.dp, bottom = 10.dp),
+                                    alCheckear = {})
                             }
                         }
             }})

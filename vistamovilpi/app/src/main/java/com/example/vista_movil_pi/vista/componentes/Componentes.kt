@@ -31,6 +31,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -77,14 +78,14 @@ fun TarjetaMinimizadaFacturas(
     total: String,
     alClickar: () -> Unit,
     funcionEliminar: () -> Unit,
-    esEmitida: Boolean = true
+    esEmitida: Boolean = true,
+    completada: Boolean,
+    modifier: Modifier,
+    alCheckear: () -> Unit
 ) {
     ElevatedCard(
         onClick = alClickar,
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .wrapContentHeight()
-            .padding(5.dp, bottom = 10.dp),
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.blanco_claro),
         ),
@@ -132,6 +133,26 @@ fun TarjetaMinimizadaFacturas(
                             .fillMaxHeight()
                             .padding(end = 5.dp),
                         verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally){
+                        Checkbox(
+                            checked = completada,
+                            onCheckedChange = { isChecked ->
+                                alCheckear()
+                            },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = colorResource(id = R.color.azul_oscuro),
+                                disabledCheckedColor = colorResource(id = R.color.azul_oscuro)
+                            ),
+                            modifier = Modifier.clickable { alCheckear() }
+                        )
+
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Column(
+                        Modifier
+                            .fillMaxHeight()
+                            .padding(end = 5.dp),
+                        verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         IconButton(
@@ -151,6 +172,31 @@ fun TarjetaMinimizadaFacturas(
                                     )
                             )
                         }
+                    }
+                }
+            } else {
+                Row(
+                    Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxHeight()
+                            .padding(end = 5.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Checkbox(
+                            checked = completada,
+                            onCheckedChange = { isChecked ->
+                                alCheckear()
+                            },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = colorResource(id = R.color.azul_oscuro),
+                                disabledCheckedColor = colorResource(id = R.color.azul_oscuro)
+                            ),
+                            modifier = Modifier.clickable { alCheckear() }
+                        )
                     }
                 }
             }
@@ -373,6 +419,7 @@ fun TarjetaProyectos(
                             onCheckedChange = {
                                 checkboxStates[index] = it
                             },
+                            colors = CheckboxDefaults.colors(checkedColor = colorResource(id = R.color.azul_oscuro), disabledCheckedColor = colorResource(id = R.color.azul_oscuro)),
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
@@ -392,14 +439,20 @@ fun TarjetaProyectos(
                     ) {
                         Button(
                             onClick = { navController.navigate(Vistas.FormTarea.ruta + "?uid=" + uid + "&pid=" + proyecto._id) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_oscuro), contentColor = colorResource(
+                                id = R.color.blanco_claro
+                            ))
                         ) {
                             Text(text = "Agregar tarea")
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
                             onClick = { eliminarProyecto() },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_oscuro), contentColor = colorResource(
+                                id = R.color.blanco_claro
+                            ))
                         ) {
                             Text(text = "Eliminar proyecto")
                         }

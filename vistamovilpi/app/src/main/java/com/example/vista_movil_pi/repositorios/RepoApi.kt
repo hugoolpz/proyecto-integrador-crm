@@ -22,6 +22,13 @@ interface RepoApi {
 
     @POST("api/facturas")
     suspend fun postFactura(@Body factura: Factura): Response<RespuestaApi<Factura>>
+
+    @PUT("api/facturas/{id}")
+    suspend fun putFactura(
+        @Path("id") id: String,
+        @Body factura: Factura
+    ): Response<RespuestaApi<Factura>>
+
     @DELETE("api/facturas/{id}")
     suspend fun deleteFactura(@Path("id") id: String): Response<RespuestaApi<Factura>>
 
@@ -33,10 +40,18 @@ interface RepoApi {
 
     @GET("api/usuarios/{id}")
     suspend fun getClientes(@Path("id") id: String): Response<RespuestaApi<Usuario>>
+
     @PUT("api/usuarios/cliente/{id}")
-    suspend fun removeCliente(@Path("id") id: String, @Body usuario: Usuario): Response<RespuestaApi<Usuario>>
+    suspend fun removeCliente(
+        @Path("id") id: String,
+        @Body usuario: Usuario
+    ): Response<RespuestaApi<Usuario>>
+
     @PUT("api/usuarios/{id}")
-    suspend fun putCliente(@Path("id") id: String, @Body usuario: Usuario): Response<RespuestaApi<Usuario>>
+    suspend fun putCliente(
+        @Path("id") id: String,
+        @Body usuario: Usuario
+    ): Response<RespuestaApi<Usuario>>
 
     @POST("api/proyectos")
     suspend fun postProyecto(@Body proyecto: Proyecto): Response<RespuestaApi<Proyecto>>

@@ -13,5 +13,7 @@ data class Factura(
     val _id: String = ""
 
     // Constructor vacío
-    constructor() : this("", false, "", Cliente(), "", "", 0.0, Cliente())
+    constructor() : this("", false, "", Cliente(""), "", "", 0.0, Cliente(""))
+
+    constructor(completada: Boolean) : this("", completada, "", Cliente(""), "", "", 0.0, Cliente(""))
 }

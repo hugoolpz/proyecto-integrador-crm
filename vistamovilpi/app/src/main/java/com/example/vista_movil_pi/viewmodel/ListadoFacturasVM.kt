@@ -20,6 +20,24 @@ class ListadoFacturasVM : ViewModel() {
     private val _facturas = MutableLiveData<List<Factura>>()
     val facturas: LiveData<List<Factura>> = _facturas
 
+    suspend fun putFactura(id: String, uid:String, factura: Factura, navController: NavController) {
+        viewModelScope.launch {
+            try {
+                val result = api.putFactura(id, factura)
+                Log.d("Resultado factura: ", result.toString())
+                if (result.isSuccessful) {
+                    val response: RespuestaApi<Factura> = result.body()!!
+                    if (response.exito == true) {
+                        navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + uid)
+                    }
+                }
+            } catch (ex: Exception) {
+                Log.d("Fallo al actualizar factura", ex.message.toString())
+            }
+            navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + uid)
+        }
+    }
+
     suspend fun getFacturas(uid: String) {
         _cargando.value = true
         try {
