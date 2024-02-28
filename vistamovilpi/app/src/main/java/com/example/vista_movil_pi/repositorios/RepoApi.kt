@@ -22,6 +22,8 @@ interface RepoApi {
 
     @POST("api/facturas")
     suspend fun postFactura(@Body factura: Factura): Response<RespuestaApi<Factura>>
+    @DELETE("api/facturas/{id}")
+    suspend fun deleteFactura(@Path("id") id: String): Response<RespuestaApi<Factura>>
 
     @GET("api/facturas/tuyas/{id}")
     suspend fun getFacturas(@Path("id") id: String): Response<RespuestaApi<List<Factura>>>

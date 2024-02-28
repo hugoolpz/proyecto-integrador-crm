@@ -228,14 +228,14 @@ fun ListadoFacturas(navController: NavController, viewModel: ListadoFacturasVM, 
                                 TarjetaMinimizadaFacturas(facturas[indice].concepto,
                                     "$total €", alClickar = {
                                     navController.navigate(Vistas.Factura.ruta + "?id=" + facturas[indice]._id + "&uid=" + uid)
-                                })
+                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)})
                             }
                         } else {
                             if (facturas[indice].datosEmisor._id != uid){
                                 TarjetaMinimizadaFacturas(facturas[indice].concepto,
                                     "$total €", alClickar = {
                                     navController.navigate(Vistas.Factura.ruta + "?id=" + facturas[indice]._id + "&uid=" + uid)
-                                })
+                                }, funcionEliminar = {viewModel.deleteFactura(facturas[indice]._id, navController, uid)}, esEmitida = false)
                             }
                         }
             }})

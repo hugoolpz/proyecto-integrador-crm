@@ -75,7 +75,9 @@ import kotlinx.coroutines.launch
 fun TarjetaMinimizadaFacturas(
     titulo: String,
     total: String,
-    alClickar: () -> Unit
+    alClickar: () -> Unit,
+    funcionEliminar: () -> Unit,
+    esEmitida: Boolean = true
 ) {
     ElevatedCard(
         onClick = alClickar,
@@ -119,6 +121,38 @@ fun TarjetaMinimizadaFacturas(
                     color = colorResource(id = R.color.azul_verdoso),
                     fontSize = 16.sp
                 )
+            }
+            if (esEmitida){
+                Row(
+                    Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxHeight()
+                            .padding(end = 5.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        IconButton(
+                            onClick = funcionEliminar,
+                            modifier = Modifier.clip(
+                                RoundedCornerShape(50)
+                            )
+                        ) {
+                            Icon(
+                                Icons.Rounded.Delete,
+                                contentDescription = "",
+                                tint = colorResource(id = R.color.blanco_claro),
+                                modifier = Modifier
+                                    .size(100.dp, 100.dp)
+                                    .background(
+                                        colorResource(id = R.color.rojo_tomate)
+                                    )
+                            )
+                        }
+                    }
+                }
             }
         }
     }

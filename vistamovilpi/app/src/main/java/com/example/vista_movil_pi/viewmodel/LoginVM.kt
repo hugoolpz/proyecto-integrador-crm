@@ -46,6 +46,7 @@ class LoginVM: ViewModel() {
                 if (result.isSuccessful) {
                     val response: RespuestaApi<Usuario> = result.body()!!
                     if (response.exito == true){
+                        _cargando.value = false
                         navController.navigate(Vistas.ListadoFacturas.ruta + "?uid=" + (response.datos?._id
                             ?: null))
                     }
@@ -54,5 +55,6 @@ class LoginVM: ViewModel() {
                 Log.d("falloInicio", ex.message.toString())
             }
         }
+        _cargando.value = false
     }
 }
