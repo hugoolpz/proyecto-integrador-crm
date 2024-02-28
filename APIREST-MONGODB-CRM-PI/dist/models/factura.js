@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsuarioModel = void 0;
+exports.FacturaModel = exports.UsuarioModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const SchemaUsuario = new mongoose_1.Schema({
     nombre: { type: mongoose_1.Schema.Types.String, required: true },
@@ -57,5 +57,5 @@ const SchemaFactura = new mongoose_1.Schema({
         required: true,
     },
 }, { timestamps: false, versionKey: false });
-exports.default = mongoose_1.default.model("facturas", SchemaFactura);
+exports.FacturaModel = mongoose_1.default.model("facturas", SchemaFactura);
 //# sourceMappingURL=factura.js.map
