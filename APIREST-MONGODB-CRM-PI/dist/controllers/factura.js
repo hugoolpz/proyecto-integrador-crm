@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteFactura = exports.putFactura = exports.postFactura = exports.getFactura = exports.getFacturas = void 0;
-const factura_1 = __importDefault(require("../models/factura"));
+const factura_1 = require("../models/factura");
 const mongoose_1 = __importDefault(require("mongoose"));
 const getFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield factura_1.default.find()
+    yield factura_1.FacturaModel.find()
         .or([{ datosEmisor: id }, { datosReceptor: id }])
         .populate("datosEmisor")
         .populate("datosReceptor")
@@ -38,7 +38,7 @@ const getFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getFacturas = getFacturas;
 const getFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield factura_1.default.findById(id)
+    yield factura_1.FacturaModel.findById(id)
         .populate("datosEmisor")
         .populate("datosReceptor")
         .exec()
@@ -58,7 +58,7 @@ const getFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getFactura = getFactura;
 const postFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { concepto, descripcion, datosEmisor, fecha, baseImp, datosReceptor } = req.body;
-    const factura = new factura_1.default({
+    const factura = new factura_1.FacturaModel({
         _id: new mongoose_1.default.Types.ObjectId(),
         concepto,
         descripcion,
@@ -87,17 +87,13 @@ const postFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.postFactura = postFactura;
 const putFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { tipo, concepto, completada, descripcion, datosEmisor, fecha, baseImp, datosReceptor, } = req.body;
-    yield factura_1.default.findByIdAndUpdate({ _id: id }, {
-        tipo,
-        concepto,
-        completada,
-        descripcion,
-        datosEmisor,
-        fecha,
-        baseImp,
-        datosReceptor,
-    })
+    const { completada } = req.body;
+    const updateData = {};
+    if (completada !== undefined) {
+        updateData.completada = completada;
+    }
+    console.log(updateData);
+    yield factura_1.FacturaModel.findOneAndUpdate({ _id: id }, updateData)
         .then((resultado) => {
         return res.status(200).json({
             exito: true,
@@ -114,7 +110,7 @@ const putFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.putFactura = putFactura;
 const deleteFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield factura_1.default.findByIdAndDelete({ _id: id })
+    yield factura_1.FacturaModel.findByIdAndDelete({ _id: id })
         .then((resultado) => {
         return res.status(200).json({
             exito: true,

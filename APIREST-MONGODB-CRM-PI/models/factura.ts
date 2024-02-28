@@ -46,4 +46,7 @@ const SchemaFactura: Schema = new Schema<IFactura>(
   { timestamps: false, versionKey: false }
 );
 
-export default mongoose.model<IFactura & Document>("facturas", SchemaFactura);
+export const FacturaModel = mongoose.model<IFactura & Document>(
+  "facturas",
+  SchemaFactura
+);

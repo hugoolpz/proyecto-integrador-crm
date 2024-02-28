@@ -24,8 +24,15 @@ class ListadoProyectosVM: ViewModel() {
     private val _nombreTarea = MutableLiveData<String>()
     val nombreTarea: LiveData<String> = _nombreTarea
 
+    private val _opcionImportancia = MutableLiveData<String>()
+    val opcionImportancia: LiveData<String> = _opcionImportancia
+
     fun cambiarInputs(nombreTarea: String) {
         _nombreTarea.value = nombreTarea
+    }
+
+    fun cambiarSelect(opcionImportancia: String) {
+        _opcionImportancia.value = opcionImportancia
     }
 
     suspend fun getProyectos() {
@@ -44,8 +51,8 @@ class ListadoProyectosVM: ViewModel() {
         _cargando.value = false
     }
 
-    fun agregarTarea(pid: String, nombre: String) {
-        val tarea = Tarea(nombre, true, false)
+    fun agregarTarea(pid: String, nombre: String, importante: Boolean) {
+        val tarea = Tarea(nombre, importante, false)
         viewModelScope.launch {
             try {
                 val result = api.agregarTarea(pid, tarea)

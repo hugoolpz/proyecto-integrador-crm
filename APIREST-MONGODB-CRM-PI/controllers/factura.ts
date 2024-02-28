@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import Factura from "../models/factura";
+import { FacturaModel } from "../models/factura";
 import mongoose from "mongoose";
 
 const getFacturas = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await Factura.find()
+  await FacturaModel.find()
     .or([{ datosEmisor: id }, { datosReceptor: id }])
     .populate("datosEmisor")
     .populate("datosReceptor")
@@ -27,7 +27,7 @@ const getFacturas = async (req: Request, res: Response) => {
 const getFactura = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await Factura.findById(id)
+  await FacturaModel.findById(id)
     .populate("datosEmisor")
     .populate("datosReceptor")
     .exec()
@@ -49,7 +49,7 @@ const postFactura = async (req: Request, res: Response) => {
   const { concepto, descripcion, datosEmisor, fecha, baseImp, datosReceptor } =
     req.body;
 
-  const factura = new Factura({
+  const factura = new FacturaModel({
     _id: new mongoose.Types.ObjectId(),
     concepto,
     descripcion,
@@ -80,30 +80,16 @@ const postFactura = async (req: Request, res: Response) => {
 const putFactura = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const {
-    tipo,
-    concepto,
-    completada,
-    descripcion,
-    datosEmisor,
-    fecha,
-    baseImp,
-    datosReceptor,
-  } = req.body;
+  const { completada } = req.body;
 
-  await Factura.findByIdAndUpdate(
-    { _id: id },
-    {
-      tipo,
-      concepto,
-      completada,
-      descripcion,
-      datosEmisor,
-      fecha,
-      baseImp,
-      datosReceptor,
-    }
-  )
+  const updateData: any = {};
+
+  if (completada !== undefined) {
+    updateData.completada = completada;
+  }
+  console.log(updateData);
+
+  await FacturaModel.findOneAndUpdate({ _id: id }, updateData)
     .then((resultado) => {
       return res.status(200).json({
         exito: true,
@@ -121,7 +107,7 @@ const putFactura = async (req: Request, res: Response) => {
 const deleteFactura = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await Factura.findByIdAndDelete({ _id: id })
+  await FacturaModel.findByIdAndDelete({ _id: id })
     .then((resultado) => {
       return res.status(200).json({
         exito: true,

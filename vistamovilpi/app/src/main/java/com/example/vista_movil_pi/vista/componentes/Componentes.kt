@@ -1,5 +1,6 @@
 package com.example.vista_movil_pi.vista.componentes
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
