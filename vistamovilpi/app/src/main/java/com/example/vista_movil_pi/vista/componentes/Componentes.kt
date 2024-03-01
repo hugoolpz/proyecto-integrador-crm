@@ -401,7 +401,7 @@ fun TarjetaProyectos(
                             .fillMaxWidth()
                     ) {
                         if (checkboxStates.size <= index) {
-                            checkboxStates.add(false)
+                            checkboxStates.add(tarea.estado)
                         }
                         Text(
                             text = tarea.nombre,
@@ -410,7 +410,7 @@ fun TarjetaProyectos(
                             modifier = Modifier
                                 .clickable {
                                     checkboxStates.forEachIndexed { i, _ ->
-                                        checkboxStates[i] = i == index
+                                        checkboxStates[index] = !checkboxStates[index]
                                     }
                                 }
                                 .weight(1f)
