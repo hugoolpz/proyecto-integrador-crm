@@ -70,6 +70,7 @@ import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
 import com.example.vista_movil_pi.modelo.Proyecto
 import com.example.vista_movil_pi.navegacion.Vistas
+import com.example.vista_movil_pi.viewmodel.ListadoProyectosVM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -342,7 +343,8 @@ fun TarjetaProyectos(
     uid: String,
     navController: NavController,
     proyecto: Proyecto,
-    eliminarProyecto: () -> Unit
+    eliminarProyecto: () -> Unit,
+    viewModel: ListadoProyectosVM
 ) {
     val checkboxStates = remember { mutableStateListOf<Boolean>() }
 
@@ -419,6 +421,8 @@ fun TarjetaProyectos(
                             checked = checkboxStates[index],
                             onCheckedChange = {
                                 checkboxStates[index] = it
+                                viewModel.modificarEstadoTarea(proyecto._id, tarea._id, it)
+                                navController.navigate(Vistas.ListadoProyectos.ruta + "?uid=" + uid)
                             },
                             colors = CheckboxDefaults.colors(checkedColor = colorResource(id = R.color.azul_oscuro), disabledCheckedColor = colorResource(id = R.color.azul_oscuro)),
                             modifier = Modifier

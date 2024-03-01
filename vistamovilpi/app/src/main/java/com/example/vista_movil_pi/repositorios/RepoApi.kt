@@ -65,6 +65,13 @@ interface RepoApi {
         @Body tarea: Tarea
     ): Response<RespuestaApi<Proyecto>>
 
+    @PUT("api/proyectos/{pid}/tareas/{tid}")
+    suspend fun modificarEstadoTarea(
+        @Path("pid") pid: String,
+        @Path("tid") tid: String,
+        @Body tarea: Tarea
+    ): Response<RespuestaApi<Proyecto>>
+
     @DELETE("api/proyectos/{id}")
     suspend fun deleteProyecto(@Path("id") id: String): Response<RespuestaApi<Proyecto>>
 }

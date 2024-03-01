@@ -6,4 +6,6 @@ data class Tarea (
     val estado: Boolean,
 ) {
     val _id: String = ""
+    
+    constructor(estado: Boolean) : this("", false, estado)
 }

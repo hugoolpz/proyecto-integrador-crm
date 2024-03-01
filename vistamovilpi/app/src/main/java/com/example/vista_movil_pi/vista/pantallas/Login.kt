@@ -1,9 +1,11 @@
 package com.example.vista_movil_pi.vista.pantallas
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,18 +21,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -46,7 +48,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.vista_movil_pi.R
 import com.example.vista_movil_pi.navegacion.Vistas
@@ -96,11 +97,12 @@ fun Login(navController: NavController, viewModel: LoginVM) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
                 )
+                Spacer(modifier = Modifier.height(55.dp))
 
-                LoginTextField(value = correo, onValueChange = { viewModel.CambiarInputs(it, contra) }, label = "Correo", icon = null,)
+                LoginTextField(value = correo, onValueChange = { viewModel.CambiarInputs(it, contra) }, label = "Correo", icon = Icons.Default.Email)
                 Spacer(modifier = Modifier.height(12.dp))
 
-                LoginTextField(value = contra, onValueChange = { viewModel.CambiarInputs(correo, it) }, label = "Contraseña", icon = R.drawable.hide, esContra = true)
+                LoginTextField(value = contra, onValueChange = { viewModel.CambiarInputs(correo, it) }, label = "Contraseña", icon = Icons.Default.Lock, esContra = true)
                 Spacer(modifier = Modifier.height(25.dp))
 
                 Column(
@@ -183,7 +185,7 @@ fun LoginTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    @DrawableRes icon: Int? = null,
+    icon: ImageVector? = null,
     esContra: Boolean = false
 ) {
     Column {
@@ -199,11 +201,12 @@ fun LoginTextField(
                 focusedLabelColor = colorResource(id = R.color.azul_oscuro),
                 unfocusedLabelColor = colorResource(id = R.color.azul_oscuro)
             ),
-            trailingIcon = {
-                if (icon != null) {
-                    Image(
-                        painter = painterResource(id = icon),
+            leadingIcon = {
+                icon?.let {
+                    Icon(
+                        imageVector = it,
                         contentDescription = null,
+                        tint = Color(200, 200, 200)
                     )
                 }
             },

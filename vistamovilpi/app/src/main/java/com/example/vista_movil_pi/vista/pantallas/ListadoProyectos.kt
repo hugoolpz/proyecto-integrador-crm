@@ -158,7 +158,8 @@ fun ListadoProyectos(navController: NavController, uid: String, viewModel: Lista
                             eliminarProyecto = {
                                 viewModel.deleteProyecto(proyectos[index]._id)
                                 navController.navigate(Vistas.ListadoProyectos.ruta + "?uid=" + uid)
-                            }
+                            },
+                            viewModel = ListadoProyectosVM()
                         )
                     }
                 }

@@ -62,6 +62,16 @@ class ListadoProyectosVM: ViewModel() {
         }
     }
 
+    fun modificarEstadoTarea(pid: String, tid: String, estado: Boolean) {
+        viewModelScope.launch {
+            try {
+                val result = api.modificarEstadoTarea(pid, tid, Tarea(estado))
+            } catch (e: Exception) {
+                Log.e("ListadoProyectosVM", "Error en agregarTarea()", e)
+            }
+        }
+    }
+
     fun deleteProyecto(uid: String) {
         viewModelScope.launch {
             try {
